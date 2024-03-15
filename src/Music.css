@@ -1,0 +1,131 @@
+.neck {
+    width: 40px;
+    height: 30px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: whitesmoke;
+}
+.note {
+    width: 70px;
+    height: 30px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    background-color: lightblue;
+}
+
+.note::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    width: 1px;
+    height: 100%;
+    background-color: grey;
+}
+
+.first-snare .note {
+    background: linear-gradient(to top, lightblue 50%, transparent 50%);
+}
+
+.last-snare .note {
+    background: linear-gradient(to bottom, lightblue 50%, transparent 50%);
+}
+
+.snare {
+    display: flex;
+}
+  
+.first-snare .note::after {
+    height: 50%;
+    bottom: 0;
+}
+
+.last-snare .note::after {
+    height: 50%;
+    top: 0;
+}
+
+.first-note::after {
+    height: 50%;
+    bottom: 0;
+}
+
+.last-note::after {
+    height: 50%;
+    top: 0;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    background-color: black;
+    position: absolute;
+    top: 50%;
+}
+
+.activeNote {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+}
+
+.activeRootNote {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+}
+
+.fret-indicator {
+    font-size: 70px;
+    color: whitesmoke;
+    width: 70px;
+    height: 30px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    margin: auto;
+    right: -28px;
+}
+
+.fret-indicator-doubledot {
+    font-size: 70px;
+    color: whitesmoke;
+    width: 70px;
+    height: 30px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    margin: auto; /* Center both horizontally and vertically */
+    right: -22px;
+}
+
+.fret-indicator-container {
+    position: 'absolute';
+    transform: 'translateY(-455%) translateX(-3%)';
+    z-index:'9955';
+}
