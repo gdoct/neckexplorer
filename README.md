@@ -1,6 +1,6 @@
 # Guitar Neck Explorer React App
 
-This project is a toy project to explore the guitar neck, scales and triads
+This project is a small react app to explore the guitar neck, scales and triads
 
 # Examples:
 
@@ -19,6 +19,15 @@ Scales are configurable in src/lib/presets.ts
 
 ## Known issues
 Notes in the scale are not always correctly named.
+test framework isn't properly configured.
+9th, 11th and 13th notes don't show
+
+## Planned features
+Metronome integration
+Horizontal scrollbar
+Note animations
+Import from guitar tab
+...
 
 ## Available Scripts
 
