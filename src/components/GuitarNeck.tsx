@@ -3,7 +3,7 @@ import Snare from './Snare'
 import { NoteNames } from "../lib/musicology";
 import FretIndicator from "./FretIndicator";
 
-interface TabProps {
+interface GuitarNeckProps {
     rootNotes: NoteNames[];
     fretCount: number;
     position: number;
@@ -13,7 +13,7 @@ interface TabProps {
     showChromaticNpotes?: boolean;
 }
 
-const Tab: React.FC<TabProps> = ({ rootNotes, fretCount, position, scaleRoot, colorizeNotes, scaleToColorize, showChromaticNpotes: showChromaticNotes }) => (
+const GuitarNeck: React.FC<GuitarNeckProps> = ({ rootNotes, fretCount, position, scaleRoot, colorizeNotes, scaleToColorize, showChromaticNpotes: showChromaticNotes }) => (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
         <div style={{ position: 'relative' }}>
             { (position > 0) &&
@@ -47,4 +47,4 @@ const Tab: React.FC<TabProps> = ({ rootNotes, fretCount, position, scaleRoot, co
     </div>
 );
 
-export default Tab;
+export default GuitarNeck;

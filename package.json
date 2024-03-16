@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
-    "jest": "^27.5.1"
+    "jest": "^27.5.1",
+    "jest-environment-node": "^29.7.0"
   }
 }

@@ -38,6 +38,30 @@ export function getScaleNoteNames(scaleRoot?: NoteNames, scaleToColorize?: Array
 //return ['C','D','E','F','G','A','B'];
     return scaleNotes;
 }
+
+export function getScaleNoteNames2(scaleRoot?: NoteNames, scaleToColorize?: Array<{ interval: number, color: string }>) {
+    const scaleNotes: string[] = [];
+    if (scaleRoot === undefined || !noteNamesArray.includes(noteNamesArray[scaleRoot])) {
+        return [];
+    }
+    if (scaleToColorize && scaleRoot) {
+        let uniquekeys: string[] = [];
+        //scaleNotes.push(noteNamesArraySharp[scaleRoot]);
+        for (const note of scaleToColorize) {
+            const nextNote = (scaleRoot + note.interval) % 12;
+            let nextNoteName = noteNamesArraySharp[nextNote];
+            let notebase = nextNoteName.substring(0, 1);
+            if (uniquekeys.includes(notebase)) {
+                nextNoteName = noteNamesArray[nextNote]; // convert to flat
+            } else {
+                uniquekeys.push(notebase);
+            }
+            scaleNotes.push(nextNoteName);
+        }
+    }
+//return ['C','D','E','F','G','A','B'];
+    return scaleNotes;
+}
                                     
 export function getChromaticScaleNoteNames(
     scaleRoot?: NoteNames,

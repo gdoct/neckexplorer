@@ -1,11 +1,21 @@
-import { NoteNames, getScaleNoteNames } from './musicology'
+import { NoteNames, getScaleNoteNames2, noteNamesArray } from './musicology'
 import { presetScales } from './presets';
+
+test('GetScaleNoteNames_ReturnsEmptyWithIncorrectArguments', () => {
+    let rootnote = NoteNames.D;
+    expect(getScaleNoteNames2(rootnote, undefined))
+            .toStrictEqual([]);
+    let majorscale = presetScales.find(p => p.scalename === 'Major scale');
+    expect(majorscale).toBeDefined();
+    expect(getScaleNoteNames2(undefined, majorscale?.notes))
+            .toStrictEqual([]);
+})
 
 test('GetScaleNoteNames_CMajorScale', () => {
      let majorscale = presetScales.find(p => p.scalename === 'Major scale');
      expect(majorscale).toBeDefined();
      let rootnote = NoteNames.C;
-     expect(getScaleNoteNames(rootnote, majorscale?.notes))
+     expect(getScaleNoteNames2(rootnote, majorscale?.notes))
                .toStrictEqual(['C', 'D', 'E', 'F', 'G', 'A', 'B']);
 })
 
@@ -22,7 +32,7 @@ describe('GetScaleNoteNames_MajorScale', () => {
          ];
  
          rootNotesToTest.forEach(rootnote => {
-             let expectedScale: any;
+             let expectedScale: string[] = [];
              switch (rootnote) {
                  case NoteNames.A:
                      expectedScale = ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#'];
@@ -54,8 +64,13 @@ describe('GetScaleNoteNames_MajorScale', () => {
                  default:
                      expectedScale = []; // Handle any other cases
              }
- 
-             expect(getScaleNoteNames(rootnote, majorscale?.notes)).toStrictEqual(expectedScale);
+            let result = getScaleNoteNames2(rootnote, majorscale?.notes);
+            console.info('major scale for note ' + noteNamesArray[rootnote]);
+             for (const n of result) {
+                console.info(result);
+             }
+
+             expect(result).toStrictEqual(expectedScale);
          });
      });
  });
