@@ -9,11 +9,13 @@ interface GuitarNeckProps {
     position: number;
     scaleRoot: NoteNames;
     colorizeNotes?: boolean;
-    scaleToColorize?: Array<{ interval: number, color: string }>;
-    showChromaticNpotes?: boolean;
+    scaleToColorize?: Array<{ interval: number, color: string, name: string }>;
+    showChromaticNotes?: boolean;
+    forceFlat?: boolean;
+    forceNumeric?: boolean;
 }
 
-const GuitarNeck: React.FC<GuitarNeckProps> = ({ rootNotes, fretCount, position, scaleRoot, colorizeNotes, scaleToColorize, showChromaticNpotes: showChromaticNotes }) => (
+const GuitarNeck: React.FC<GuitarNeckProps> = ({ rootNotes, fretCount, position, scaleRoot, colorizeNotes, scaleToColorize, showChromaticNotes, forceFlat, forceNumeric }) => (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
         <div style={{ position: 'relative' }}>
             { (position > 0) &&
@@ -23,9 +25,6 @@ const GuitarNeck: React.FC<GuitarNeckProps> = ({ rootNotes, fretCount, position,
             }
         </div>
         <div style={{ position: 'relative' }}>
-            {/* Snare div */
-            // determine the name for the notes in the colorized scale
-            }
             {rootNotes.map((rootnote, index) => (
                 <Snare
                     rootnote={rootnote}
@@ -37,6 +36,8 @@ const GuitarNeck: React.FC<GuitarNeckProps> = ({ rootNotes, fretCount, position,
                     colorizeNotes={colorizeNotes}
                     scaleToColorize={scaleToColorize}
                     showChromaticNotes={showChromaticNotes}
+                    forceFlat={forceFlat}
+                    forceNumeric={forceNumeric}
                 />
             ))}
             {/* Fret div (positioned on top of snare div) */}

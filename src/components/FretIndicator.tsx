@@ -16,11 +16,21 @@ const FretIndicator: React.FC<FretIndicatorProps & { className?: string }> = ({ 
                 const singledot = fretDots.includes(thisposition);
                 const doubledot = fretDoubleDots.includes(thisposition);
                 if (doubledot) {
-                    return <div key={i} className='fret-indicator-doubledot'>..</div>
+                    if (position === 0) {
+                        return (<div key={i} className='fret-indicator fret-indicator-doubledot-neck-visible'>..</div>)
+                    } else
+                    {
+                        return (<div key={i} className='fret-indicator fret-indicator-doubledot'>..</div>)
+                    }
                 } else if (singledot) {
-                    return (<div key={i} className='fret-indicator'>.</div>);
+                    if (position === 0) {
+                        return (<div key={i} className='fret-indicator fret-indicator-singledot-neck-visible'>.</div>);
+                    }
+                    else {
+                        return (<div key={i} className='fret-indicator fret-indicator-singledot'>.</div>);
+                    }
                 } 
-                return (<div key={i} className='fret-indicator' ></div>)
+                return (<div key={i} className='fret-indicator fret-indicator-singledot' ></div>)
                 }
             )}
         </div>

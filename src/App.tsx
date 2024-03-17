@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 import './App.css';
 import './Music.css'
 import GuitarNeck from './components/GuitarNeck'
-import { NoteNames, noteNamesArray } from './lib/musicology';
-import ScaleBuilder from './components/Scalebuilder';
+import { NoteNames, noteNamesArray, noteNamesArraySharp } from './lib/musicology';
+import ScalePresets from './components/ScalePresets';
+import { ToggleButton } from "react-bootstrap";
+import Form from 'react-bootstrap/Form';
 
 function App() {
   const [fretCount, setFretCount] = useState(13);
   const [position, setPosition] = useState(0);
+  const [forceFlat, setforceFlat] = useState(true);
+  const [forceNumeric, setForceNumeric] = useState(false);
   const [scaleRoot, setScaleRoot] = useState(NoteNames.C);
-  const [selectedNotes, setSelectedNotes] = useState<Array<{ interval: number, color: string }>>([]);
+  const [selectedNotes, setSelectedNotes] = useState<Array<{ interval: number, color: string, name: string }>>([]);
 
   const handleFretCountChange = (event: any) => {
     setFretCount(Number(event.target.value));
@@ -23,18 +27,18 @@ function App() {
     setScaleRoot(Number(event.target.value));
   };
 
+  const handleToggleFlat = (newvalue: boolean) => {
+    if (newvalue) { setforceFlat(newvalue); }
+    else { setforceFlat(newvalue); }
+  };
+
+  const handleToggleNumeric = (newvalue: boolean) => {
+    if (newvalue) { setForceNumeric(newvalue); }
+    else { setForceNumeric(newvalue); }
+  };
+
   return (
     <div className="App">
-      <div style={{ display: 'block', textAlign: 'center' }}>
-          <label>
-            Fret Count:
-            <input type="number" value={fretCount} onChange={handleFretCountChange} width={13} max={48} min={1}/>
-          </label>
-          <label>
-            Position:
-            <input type="number" value={position} onChange={handlePositionChange} width={13} max={47} min={0} />
-          </label>
-        </div>
       <div>
         <GuitarNeck fretCount={fretCount}
           position={position}
@@ -42,19 +46,57 @@ function App() {
           colorizeNotes={true}
           scaleRoot={scaleRoot}
           scaleToColorize={selectedNotes}
+          forceFlat={forceFlat}
+          forceNumeric={forceNumeric}
         />
-        
-        <div style={{ display: 'flex', textAlign: 'center' }}>
-        <label>
-            Scale Root:
-            <select value={scaleRoot} onChange={handleScaleRootChange}>
+        <div style={{height:20}}></div>
+        <div style={{display: 'inline-flex'}}>
+          <label>
+          <Form.Select aria-label="Select root key" value={scaleRoot} onChange={handleScaleRootChange}>
               {Object.values(NoteNames).filter(value => typeof value === 'number').map((note, index) => (
-                <option key={index} value={note}>{noteNamesArray[note as number]}</option>
+                <option key={index} value={note}>{forceFlat ? noteNamesArray[note as number] : noteNamesArraySharp[note as number]}</option>
               ))}
-            </select>
+            </Form.Select>
           </label>
-          <ScaleBuilder onChange={setSelectedNotes} />
+          <ScalePresets onChange={setSelectedNotes} forceFlat={forceFlat} />
+          </div>
+          <div>
+          <span><ToggleButton
+            className="mb-2"
+            id="toggle-check"
+            type="checkbox"
+            variant="outline-primary"
+            checked={forceFlat}
+            value="1"
+            onChange={(e) => handleToggleFlat(e.currentTarget.checked)}
+          >
+            Use {forceFlat ? "flat" : "sharp"} notes
+          </ToggleButton>
+          </span>
+          <span>
+            <ToggleButton
+              className="mb-2"
+              id="toggle-numeric"
+              type="checkbox"
+              variant="outline-primary"
+              checked={forceNumeric}
+              value="0"
+              onChange={(e) => handleToggleNumeric(e.currentTarget.checked)}
+            >
+              Show note {forceNumeric ? "numbers" : "names"}
+            </ToggleButton>
+          </span>
         </div>
+        <div style={{ display: 'block', textAlign: 'center' }}>
+        <label>
+          Visible fret Count:
+          <input type="number" value={fretCount} onChange={handleFretCountChange} width={13} max={48} min={1} />
+        </label>
+        <label>
+          Root position:
+          <input type="number" value={position} onChange={handlePositionChange} width={13} max={47} min={0} />
+        </label>
+      </div>
       </div>
     </div>
   );

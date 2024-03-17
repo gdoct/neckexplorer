@@ -1,7 +1,7 @@
 import React from "react";
 import Fret from './Fret';
 
-import { getNoteAtInterval, NoteNames, getNoteColor, getChromaticScaleNoteNames, noteNamesArray } from '../lib/musicology';
+import { getNoteAtInterval, NoteNames, getNoteColor, getChromaticScaleNoteNames } from '../lib/musicology';
 
 interface SnareProps {
     rootnote: NoteNames;
@@ -9,8 +9,10 @@ interface SnareProps {
     position: number;
     fretCount: number;
     colorizeNotes?: boolean;
-    scaleToColorize?: Array<{ interval: number, color: string }>;
+    scaleToColorize?: Array<{ interval: number, color: string, name: string }>;
     showChromaticNotes? : boolean;
+    forceFlat?: boolean;
+    forceNumeric?: boolean;
 }
 
 const Snare: React.FC<SnareProps & { className?: string }> = ({
@@ -22,8 +24,10 @@ const Snare: React.FC<SnareProps & { className?: string }> = ({
     scaleToColorize,
     className,
     showChromaticNotes,
+    forceFlat,
+    forceNumeric
 }) => {
-    const notenames = getChromaticScaleNoteNames(scaleRoot, scaleToColorize)
+    let notenames = scaleToColorize ? getChromaticScaleNoteNames(scaleRoot, scaleToColorize, forceFlat, forceNumeric) : [];
     return (
         <div className="snare">
             <div style={{ display: 'flex' }} className={className}>
@@ -44,7 +48,7 @@ const Snare: React.FC<SnareProps & { className?: string }> = ({
                         isactive = false;
                     }
 
-                    const currentNoteName = noteNamesArray[currentnote as number];
+                    let currentNoteName = notenames[currentnote as number];
 
                     return (
                         <Fret

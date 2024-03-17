@@ -15,72 +15,87 @@ export const getNoteName = (root: NoteNames, interval: number, forceSharp?: bool
                                       { interval: 7, color: 'black' },
                                       { interval: 9, color: 'black' },
                                       { interval: 11, color: 'black' }]} */
-export function getScaleNoteNames(scaleRoot?: NoteNames, scaleToColorize?: Array<{ interval: number, color: string }>) {
-    const scaleNotes: string[] = [];
-    if (scaleRoot === undefined || !noteNamesArray.includes(noteNamesArray[scaleRoot])) {
-        return [];
-    }
-    if (scaleToColorize && scaleRoot) {
-        let uniquekeys: string[] = [];
-        //scaleNotes.push(noteNamesArraySharp[scaleRoot]);
-        for (const note of scaleToColorize) {
-            const nextNote = (scaleRoot + note.interval) % 12;
-            let nextNoteName = noteNamesArraySharp[nextNote];
-            let notebase = nextNoteName.substring(0, 1);
-            if (uniquekeys.includes(notebase)) {
-                nextNoteName = noteNamesArray[nextNote]; // convert to flat
-            } else {
-                uniquekeys.push(notebase);
-            }
-            scaleNotes.push(nextNoteName);
-        }
-    }
-//return ['C','D','E','F','G','A','B'];
-    return scaleNotes;
-}
+// export function getScaleNoteNames(scaleRoot?: NoteNames, scaleToColorize?: Array<{ interval: number, color: string }>) {
+//     const scaleNotes: string[] = [];
+//     if (scaleRoot === undefined || !noteNamesArray.includes(noteNamesArray[scaleRoot])) {
+//         return [];
+//     }
+//     if (scaleToColorize && scaleRoot) {
+//         let uniquekeys: string[] = [];
+//         //scaleNotes.push(noteNamesArraySharp[scaleRoot]);
+//         for (const note of scaleToColorize) {
+//             const nextNote = (scaleRoot + note.interval) % 12;
+//             let nextNoteName = noteNamesArraySharp[nextNote];
+//             let notebase = nextNoteName.substring(0, 1);
+//             if (uniquekeys.includes(notebase)) {
+//                 nextNoteName = noteNamesArray[nextNote]; // convert to flat
+//             } else {
+//                 uniquekeys.push(notebase);
+//             }
+//             scaleNotes.push(nextNoteName);
+//         }
+//     }
+// //return ['C','D','E','F','G','A','B'];
+//     return scaleNotes;
+// }
 
-export function getScaleNoteNames2(scaleRoot?: NoteNames, scaleToColorize?: Array<{ interval: number, color: string }>) {
-    const scaleNotes: string[] = [];
-    if (scaleRoot === undefined || !noteNamesArray.includes(noteNamesArray[scaleRoot])) {
+export const noteNamesArray = ["A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab"];
+export const noteNamesArraySharp = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"];
+
+export function getScaleNoteNames(scaleRoot: NoteNames, scaleToColorize?: Array<{ interval: number, color: string, name: string }>, forceFlat? : boolean, forceNumeric?: boolean) {
+    const scaleNotes = [];
+    if (scaleRoot === undefined || scaleRoot >= noteNamesArray.length || scaleRoot < 0) {
         return [];
     }
-    if (scaleToColorize && scaleRoot) {
-        let uniquekeys: string[] = [];
-        //scaleNotes.push(noteNamesArraySharp[scaleRoot]);
+
+    let noteNamesSharp = forceFlat ? noteNamesArray.slice() : noteNamesArraySharp.slice();
+    let noteNamesFlat = forceFlat ? noteNamesArraySharp.slice() : noteNamesArray.slice();
+
+    const uniqueLetters = new Set();
+    if (scaleToColorize) {
         for (const note of scaleToColorize) {
             const nextNote = (scaleRoot + note.interval) % 12;
-            let nextNoteName = noteNamesArraySharp[nextNote];
-            let notebase = nextNoteName.substring(0, 1);
-            if (uniquekeys.includes(notebase)) {
-                nextNoteName = noteNamesArray[nextNote]; // convert to flat
-            } else {
-                uniquekeys.push(notebase);
-            }
+            let nextNoteName = noteNamesSharp[nextNote];
             scaleNotes.push(nextNoteName);
+            const firstLetter = nextNoteName[0];
+            if (!uniqueLetters.has(firstLetter)) {
+                uniqueLetters.add(firstLetter);
+            }
         }
     }
-//return ['C','D','E','F','G','A','B'];
+
+    for (let i = 0; i < scaleNotes.length; i++) {
+        const currentNote: string = scaleNotes[i];
+        if (currentNote.length > 1) {
+            const firstLetter = currentNote[0];
+            if (!uniqueLetters.has(firstLetter)) {
+                var index = noteNamesFlat.indexOf(currentNote);
+                const correspondingNote = noteNamesFlat[index];
+                scaleNotes[i] = correspondingNote;
+            }
+        }
+    }
+
     return scaleNotes;
 }
                                     
 export function getChromaticScaleNoteNames(
-    scaleRoot?: NoteNames,
-    scaleToColorize?: Array<{ interval: number, color: string }>,
-    useSharp?: boolean
+    scaleRoot: NoteNames,
+    scaleToColorize: Array<{ interval: number, color: string, name: string }>,
+    forceFlat?: boolean,
+    forceNumeric?: boolean,
+    scaleToColorizeNoteNames?: string[]
 ): string[] {
     // Define the chromatic scale (all 12 notes)
-    return ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
-    // let scaleNoteNames = getScaleNoteNames(scaleRoot, scaleToColorize);
-    // let chromaticNotes = useSharp ? noteNamesArraySharp : noteNamesArray;
+    let scaleNoteNames = scaleToColorizeNoteNames ? scaleToColorizeNoteNames.slice() : getScaleNoteNames(scaleRoot, scaleToColorize, forceFlat, forceNumeric);
+    let chromaticNotes: string[] = forceFlat ? noteNamesArray.slice() : noteNamesArraySharp.slice();
 
-    // if (scaleToColorize && scaleNoteNames) {
-    //     for (let i =0; i< scaleToColorize.length; i++) {
-    //         let noteToColorize = scaleToColorize[i];
-    //         let name = scaleNoteNames[i];
-    //         chromaticNotes[noteToColorize.interval % 12] = name;
-    //     }
-    // }
-    // return chromaticNotes;
+    for (let i =0; i< scaleToColorize.length; i++) {
+        let noteToColorize = scaleToColorize[i];
+        let name = scaleNoteNames[i];
+        chromaticNotes[(scaleRoot + noteToColorize.interval) % 12] = forceNumeric && noteToColorize.name !== '' ? noteToColorize.name : name;
+    }
+    return chromaticNotes;
 }
                                                     
 
@@ -98,8 +113,6 @@ export enum NoteNames {
     G = 10,
     Ab = 11
 }
-export const noteNamesArray = ["A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab"];
-export const noteNamesArraySharp = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"];
 
 // the dropdown contains the notes 1-7, 9 11 and 13
 export const noteMappings: number[] =        [0, 1, 2, 3, 4, 5,  6,  8, 10, 12]; // dropdown id to actual note in the scale
@@ -115,10 +128,7 @@ export function getNoteColor(currentnote: NoteNames, scaleRoot: NoteNames, inter
         return "lightgrey";
     }
 
-    // Bereken het interval tussen de huidige noot en de grondnoot (rootnote)
     const interval = (currentnote - scaleRoot + 12) % 12;
-
-    // // Ondersteun ook de 9e, 11e en 13e intervallen
     const matchingInterval = intervalsToColorize.find(item => item.interval === interval);
     if (matchingInterval) {
         return matchingInterval.color;

@@ -1,13 +1,9 @@
-import { NoteNames, getScaleNoteNames2, noteNamesArray } from './musicology'
+import { NoteNames, getScaleNoteNames, getChromaticScaleNoteNames } from './musicology'
 import { presetScales } from './presets';
 
 test('GetScaleNoteNames_ReturnsEmptyWithIncorrectArguments', () => {
     let rootnote = NoteNames.D;
-    expect(getScaleNoteNames2(rootnote, undefined))
-            .toStrictEqual([]);
-    let majorscale = presetScales.find(p => p.scalename === 'Major scale');
-    expect(majorscale).toBeDefined();
-    expect(getScaleNoteNames2(undefined, majorscale?.notes))
+    expect(getScaleNoteNames(rootnote, undefined))
             .toStrictEqual([]);
 })
 
@@ -15,25 +11,26 @@ test('GetScaleNoteNames_CMajorScale', () => {
      let majorscale = presetScales.find(p => p.scalename === 'Major scale');
      expect(majorscale).toBeDefined();
      let rootnote = NoteNames.C;
-     expect(getScaleNoteNames2(rootnote, majorscale?.notes))
+     expect(getScaleNoteNames(rootnote, majorscale?.notes))
                .toStrictEqual(['C', 'D', 'E', 'F', 'G', 'A', 'B']);
 })
 
-describe('GetScaleNoteNames_MajorScale', () => {
+describe('GetScaleNoteNames_AllMajorScales', () => {
      it('should return the correct note names for the Major scale', () => {
          const majorscale = presetScales.find(p => p.scalename === 'Major scale');
          expect(majorscale).toBeDefined();
  
-         // Test for each of the missing notes
-         const rootNotesToTest = [
+         // Test for each note
+         const rootNotesToTest = [ 
              NoteNames.A, NoteNames.B, NoteNames.Eb, NoteNames.Gb,
              NoteNames.C, NoteNames.D, NoteNames.F, NoteNames.G,
              NoteNames.Bb
          ];
  
          rootNotesToTest.forEach(rootnote => {
-             let expectedScale: string[] = [];
-             switch (rootnote) {
+            let expectedScale: string[] = [];
+            let forceFlat = false;
+            switch (rootnote) {
                  case NoteNames.A:
                      expectedScale = ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#'];
                      break;
@@ -42,9 +39,11 @@ describe('GetScaleNoteNames_MajorScale', () => {
                      break;
                  case NoteNames.Eb:
                      expectedScale = ['Eb', 'F', 'G', 'Ab', 'Bb', 'C', 'D'];
+                     forceFlat = true;
                      break;
                  case NoteNames.Gb:
                      expectedScale = ['Gb', 'Ab', 'Bb', 'B', 'Db', 'Eb', 'F'];
+                     forceFlat = true;
                      break;
                  case NoteNames.C:
                      expectedScale = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
@@ -54,24 +53,40 @@ describe('GetScaleNoteNames_MajorScale', () => {
                      break;
                  case NoteNames.F:
                      expectedScale = ['F', 'G', 'A', 'Bb', 'C', 'D', 'E'];
+                     forceFlat = true;
                      break;
                  case NoteNames.G:
                      expectedScale = ['G', 'A', 'B', 'C', 'D', 'E', 'F#'];
                      break;
                  case NoteNames.Bb:
                      expectedScale = ['Bb', 'C', 'D', 'Eb', 'F', 'G', 'A'];
+                     forceFlat = true;
                      break;
                  default:
                      expectedScale = []; // Handle any other cases
              }
-            let result = getScaleNoteNames2(rootnote, majorscale?.notes);
-            console.info('major scale for note ' + noteNamesArray[rootnote]);
-             for (const n of result) {
-                console.info(result);
-             }
-
-             expect(result).toStrictEqual(expectedScale);
+            let result = getScaleNoteNames(rootnote, majorscale?.notes, forceFlat);
+            expect(result).toStrictEqual(expectedScale);
          });
      });
  });
  
+test("getChromaticScaleNoteNames", () => {
+    let majorscale = presetScales.find(p => p.scalename === 'Major scale');
+    expect(majorscale).toBeDefined();
+    expect(majorscale?.notes).toBeDefined();
+    if (majorscale?.notes === undefined) {
+        fail("error");
+    }
+    let rootnote = NoteNames.Bb;
+    // Bb sale is ['Bb', 'C', 'D', 'Eb', 'F', 'G', 'A']
+    //["A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab"]; is the flat scale
+    //["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"]; // is the sharp scale
+    let chromatic_flat = getChromaticScaleNoteNames(rootnote, majorscale.notes, true);
+    expect(chromatic_flat).toStrictEqual(["A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab"]);
+
+    let bFlatScale = getScaleNoteNames(rootnote, majorscale.notes, true);
+    let chromatic_sharp = getChromaticScaleNoteNames(rootnote, majorscale.notes, false, false, bFlatScale);
+    expect(chromatic_sharp).toStrictEqual(["A", "Bb", "B", "C", "C#", "D", "Eb", "E", "F", "F#", "G", "G#"]);
+
+});

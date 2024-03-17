@@ -97,31 +97,30 @@
 }
 
 .fret-indicator {
-    font-size: 70px;
+    font-size: 60px;
     color: whitesmoke;
     width: 70px;
-    height: 30px;
+    height: 28px;
     position: relative;
     display: flex;
     align-items: center;
     align-content: center;
-    text-align: center;
-    margin: auto;
-    right: -28px;
+} 
+
+.fret-indicator-singledot {
+    right: -29px;
 }
 
 .fret-indicator-doubledot {
-    font-size: 70px;
-    color: whitesmoke;
-    width: 70px;
-    height: 30px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    align-content: center;
-    text-align: center;
-    margin: auto; /* Center both horizontally and vertically */
     right: -22px;
+}
+
+.fret-indicator-singledot-neck-visible {
+    right: 0px;
+}
+
+.fret-indicator-doubledot-neck-visible {
+    right: 9px;
 }
 
 .fret-indicator-container {
