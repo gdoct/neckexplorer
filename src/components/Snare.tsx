@@ -8,6 +8,7 @@ interface SnareProps {
     scaleRoot: NoteNames;
     position: number;
     fretCount: number;
+    octave: number;
     colorizeNotes?: boolean;
     scaleToColorize?: Array<{ interval: number, color: string, name: string }>;
     showChromaticNotes? : boolean;
@@ -20,6 +21,7 @@ const Snare: React.FC<SnareProps & { className?: string }> = ({
     scaleRoot,
     position,
     fretCount,
+    octave,
     colorizeNotes,
     scaleToColorize,
     className,
@@ -59,6 +61,7 @@ const Snare: React.FC<SnareProps & { className?: string }> = ({
                             backgroundColor={notecolor}
                             isNeck={isRootOfNeck}
                             isScaleRoot={isScaleRoot}
+                            octave={octave}
                         />
                     );
                 })}

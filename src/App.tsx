@@ -58,7 +58,7 @@ function App() {
               ))}
             </Form.Select>
           </label>
-          <ScalePresets onChange={setSelectedNotes} forceFlat={forceFlat} />
+          <ScalePresets onChange={setSelectedNotes} />
           </div>
           <div>
           <span><ToggleButton
@@ -70,7 +70,7 @@ function App() {
             value="1"
             onChange={(e) => handleToggleFlat(e.currentTarget.checked)}
           >
-            Use {forceFlat ? "flat" : "sharp"} notes
+            Using {forceFlat ? "flat" : "sharp"} notes
           </ToggleButton>
           </span>
           <span>
@@ -83,7 +83,7 @@ function App() {
               value="0"
               onChange={(e) => handleToggleNumeric(e.currentTarget.checked)}
             >
-              Show note {forceNumeric ? "numbers" : "names"}
+              Showing note {forceNumeric ? "numbers" : "names"}
             </ToggleButton>
           </span>
         </div>

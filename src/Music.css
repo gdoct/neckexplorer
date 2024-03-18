@@ -66,6 +66,25 @@
     top: 50%;
 }
 
+.flex-fret {
+    display: 'flex';
+    justify-content: 'center';
+    align-items: 'center';
+}
+
+.note-container {
+    display: 'inline-block';
+    width: '20px';
+    height: '20px';
+    line-height: '20px';
+    border-radius: '50%';
+    border: '1px solid grey';
+    text-align: 'center';
+    font-size: '12px';
+    color: 'black';
+    z-index: '999';
+}
+
 .activeNote {
     position: absolute;
     left: 50%;
@@ -105,6 +124,7 @@
     display: flex;
     align-items: center;
     align-content: center;
+    z-index: 1;
 } 
 
 .fret-indicator-singledot {
@@ -125,6 +145,5 @@
 
 .fret-indicator-container {
     position: 'absolute';
-    transform: 'translateY(-455%) translateX(-3%)';
-    z-index:'9955';
+  /*  transform: 'translateY(-460%) translateX(-3%)';*/
 }
