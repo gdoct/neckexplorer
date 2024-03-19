@@ -1,4 +1,4 @@
-import { NoteNames } from './musicology'
+import { NoteNames } from './musictypes'
 
 // Calculate the frequency of a note in a given octave
 const calculateFrequency = (note: NoteNames, octave: number): number => {
@@ -7,8 +7,14 @@ const calculateFrequency = (note: NoteNames, octave: number): number => {
     return baseFrequency * (semitoneRatio ** (note - 9 + (octave - 4) * 12));
 };
 
-export const playNote = (note: NoteNames, octave: number) => {
+export const playNote = (note: NoteNames, octave: number, after?: number, duration?: number) => {
     const audioContext = new AudioContext();
+    const noteduration = duration? duration : 0.2;
+    const releaseduration = duration? duration * 1.5 : 0.3;
+    const attackduration = duration? duration / 2 : 0.1;
+    
+    let playSoundAtTime = after ? after : audioContext.currentTime;
+
     const frequency = calculateFrequency(note, octave);
     const oscillator = audioContext.createOscillator();
     oscillator.type = 'sawtooth';
@@ -16,22 +22,22 @@ export const playNote = (note: NoteNames, octave: number) => {
 
     // Create a gain node for the envelope
     const gainNode = audioContext.createGain();
-    gainNode.gain.setValueAtTime(0, audioContext.currentTime); // Initial volume
-    gainNode.gain.linearRampToValueAtTime(1, audioContext.currentTime + 0.01); // Attack
-    gainNode.gain.linearRampToValueAtTime(0.7, audioContext.currentTime + 0.1); // Decay
-    gainNode.gain.setValueAtTime(0.7, audioContext.currentTime + 0.2); // Sustain
-    gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.3); // Release
+    gainNode.gain.setValueAtTime(0, playSoundAtTime); // Initial volume
+    gainNode.gain.linearRampToValueAtTime(1, playSoundAtTime + attackduration);  // A ttack
+    gainNode.gain.linearRampToValueAtTime(0.7, playSoundAtTime + noteduration);  // D ecay
+    gainNode.gain.setValueAtTime(0.7, playSoundAtTime + noteduration);           // S ustain
+    gainNode.gain.linearRampToValueAtTime(0, playSoundAtTime + releaseduration); // R elease
 
     // Connect the oscillator to the gain node
     oscillator.connect(gainNode);
 
      // Add a chorus effect
      const chorus = audioContext.createDelay();
-     chorus.delayTime.value = 0.03;
+     chorus.delayTime.value = noteduration / 5;
      oscillator.connect(chorus);
      chorus.connect(audioContext.destination);
 
     oscillator.connect(audioContext.destination);
-    oscillator.start();
-    oscillator.stop(audioContext.currentTime + .2);
+    oscillator.start(playSoundAtTime);
+    oscillator.stop(playSoundAtTime + noteduration);
 }

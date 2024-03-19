@@ -1,28 +1,27 @@
 import React from "react";
 import Snare from './Snare'
-import { NoteNames, noteNamesArray } from "../lib/musicology";
-import FretIndicator from "./FretIndicator";
+import { NoteNames, Scale, GuitarTuning } from "../lib/musictypes";
 
 interface GuitarNeckProps {
-    rootNotes: NoteNames[];
+    tuning: GuitarTuning;
     fretCount: number;
     position: number;
     scaleRoot: NoteNames;
     colorizeNotes?: boolean;
-    scaleToColorize?: Array<{ interval: number, color: string, name: string }>;
+    scaleToColorize?: Scale;
     showChromaticNotes?: boolean;
     forceFlat?: boolean;
     forceNumeric?: boolean;
 }
 
-const GuitarNeck: React.FC<GuitarNeckProps> = ({ rootNotes, fretCount, position, scaleRoot, colorizeNotes, scaleToColorize, showChromaticNotes, forceFlat, forceNumeric }) => {
+const GuitarNeck: React.FC<GuitarNeckProps> = ({ tuning, fretCount, position, scaleRoot, colorizeNotes, scaleToColorize, showChromaticNotes, forceFlat, forceNumeric }) => {
     const getOctave = (rootnote: NoteNames, index: number) => {
         if (rootnote === NoteNames.E)
         {
             if (index === 0) return 4;
             return 2;
         }
-        if (rootnote === NoteNames.A || rootnote == NoteNames.D) return 2;
+        if (rootnote === NoteNames.A || rootnote === NoteNames.D) return 2;
         return 3;
     };
 
@@ -36,14 +35,15 @@ const GuitarNeck: React.FC<GuitarNeckProps> = ({ rootNotes, fretCount, position,
             }
         </div>
         <div style={{ position: 'relative' }}>
-            {rootNotes.map((rootnote, index) => (
+            {tuning.strings.map((guitarstring, index) => (
                 <Snare
-                    rootnote={rootnote}
-                    octave={getOctave(rootnote, index)}
+                    rootnote={guitarstring.rootnote}
+                    octave={guitarstring.octave}
                     position={position}
                     fretCount={fretCount}
-                    className={index === 0 ? "first-snare" : index === rootNotes.length - 1 ? "last-snare" : ""}
+                    className={index === 0 ? "first-snare" : index === tuning.strings.length - 1 ? "last-snare" : ""}
                     key={index}
+                    showDot={index===3}
                     scaleRoot={scaleRoot}
                     colorizeNotes={colorizeNotes}
                     scaleToColorize={scaleToColorize}
@@ -52,10 +52,6 @@ const GuitarNeck: React.FC<GuitarNeckProps> = ({ rootNotes, fretCount, position,
                     forceNumeric={forceNumeric}
                 />
             ))}
-            {/* Fret div (positioned on top of snare div) */}
-            <div style={{ position: 'absolute', transform: 'translateY(-435%) translateX(-0.3%)', zIndex:'-1' }}>
-                <FretIndicator fretCount={fretCount} position={position} />
-            </div>
         </div>
     </div>
 )};

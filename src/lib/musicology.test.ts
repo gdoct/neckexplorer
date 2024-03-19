@@ -1,4 +1,5 @@
-import { NoteNames, getScaleNoteNames, getChromaticScaleNoteNames, ScaleType, Scale } from './musicology'
+import { getScaleNoteNames, getChromaticScaleNoteNames } from './musicology'
+import { NoteNames, ScaleType, Scale } from './musictypes'
 import { presetScales } from './presets';
 const allpresets: ScaleType[] = presetScales.map(s => s);
 

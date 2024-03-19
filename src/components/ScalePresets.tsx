@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { ScaleType} from '../lib/musicology'
+import { ScaleType,  Scale} from '../lib/musictypes'
 import { presetScales } from '../lib/presets'
 import Form from 'react-bootstrap/Form';
-import { group } from "console";
 
 interface ScalePresetsProps {
-    onChange?: (scale: Array<{ interval: number, color: string, name: string }>) => void;
+    onChange?: (scale: Scale) => void;
 }
 
 type Dictionary<Key extends keyof any, Value> = {
@@ -13,15 +12,18 @@ type Dictionary<Key extends keyof any, Value> = {
 };
 
 const ScalePresets: React.FC<ScalePresetsProps> = ({ onChange }) => {
-    // const [activePresetGroup, setActivePresetGroup] = useState<string | undefined>();
-    const [activePresets, setActivePresets] = useState<Dictionary<string, string>>( {} );
+
+    const presets: ScaleType[] = presetScales.map(s => s);
+    const scaleTypes = presets.map(s => s.type);
+
+    const [activePresets] = useState<Dictionary<string, string>>( {} );
 
     const handleMultiPresetChange = (groupname: string, target: any) => {
-        let group = presetScales.find(p => p.type === groupname);
+        let group = presets.find(p => p.type === groupname);
         if (!group) return;
         const newPresetIndex = Number(target.value);
         const selectedPreset = group.scales[newPresetIndex];
-        onChange && onChange(selectedPreset.notes);
+        onChange && onChange(selectedPreset);
         // setActivePresetGroup(groupname);
         for (const key in activePresets) {
             activePresets[key] = (groupname === key) ? groupname + '_' + newPresetIndex : "";
@@ -37,9 +39,6 @@ const ScalePresets: React.FC<ScalePresetsProps> = ({ onChange }) => {
         return "";
     }
    
-    const presets: ScaleType[] = presetScales.map(s => s);
-    const scaleTypes = presets.map(s => s.type);
-
     return (
         <div style={{ display: 'flex', flexDirection: 'row' }}>
             {scaleTypes.map((groupname: string, index) => {

@@ -2,26 +2,28 @@ import React, { useState } from 'react';
 import './App.css';
 import './Music.css'
 import GuitarNeck from './components/GuitarNeck'
-import { NoteNames, noteNamesArray, noteNamesArraySharp } from './lib/musicology';
+import ArpeggioPlayer from './components/ArpeggioPlayer'
+import { GuitarTuning, NoteNames, Scale, noteNamesArray, noteNamesArraySharp } from './lib/musictypes';
 import ScalePresets from './components/ScalePresets';
 import { ToggleButton } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
+import { Button } from 'react-bootstrap';
+import { BsCaretLeft, BsCaretRight, BsPlus, BsDash } from 'react-icons/bs';
+import TuningPresets from './components/TuningPresets'
+import { presetTunings } from './lib/presets';
 
 function App() {
-  const [fretCount, setFretCount] = useState(13);
-  const [position, setPosition] = useState(0);
+  const [fretCount, setFretCount] = useState(4);
+  const [position, setPosition] = useState(5);
   const [forceFlat, setforceFlat] = useState(true);
   const [forceNumeric, setForceNumeric] = useState(false);
   const [scaleRoot, setScaleRoot] = useState(NoteNames.C);
-  const [selectedNotes, setSelectedNotes] = useState<Array<{ interval: number, color: string, name: string }>>([]);
+  const [selectedNotes, setSelectedNotes] = useState<Scale>({ scalename: "", notes: [] });
+  const [activeTuning, setActiveTuning] = useState<GuitarTuning>(presetTunings[0]);
 
-  const handleFretCountChange = (event: any) => {
-    setFretCount(Number(event.target.value));
-  };
-
-  const handlePositionChange = (event: any) => {
-    setPosition(Number(event.target.value));
-  };
+  const handleSetScale = (scale: Scale) => {
+    setSelectedNotes(scale);
+  }
 
   const handleScaleRootChange = (event: any) => {
     setScaleRoot(Number(event.target.value));
@@ -37,30 +39,63 @@ function App() {
     else { setForceNumeric(newvalue); }
   };
 
+  const setTuning = (t?: GuitarTuning) => {
+    if (t) {
+      setActiveTuning(t);
+    }
+  }
+
   return (
     <div className="App">
       <div>
-        <GuitarNeck fretCount={fretCount}
-          position={position}
-          rootNotes={[NoteNames.E, NoteNames.B, NoteNames.G, NoteNames.D, NoteNames.A, NoteNames.E]}
-          colorizeNotes={true}
-          scaleRoot={scaleRoot}
-          scaleToColorize={selectedNotes}
-          forceFlat={forceFlat}
-          forceNumeric={forceNumeric}
-        />
-        <div style={{height:20}}></div>
-        <div style={{display: 'inline-flex'}}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Button variant="light" style={{ marginRight: 10 }}>
+            <BsCaretLeft onClick={e => { if (position > 0) setPosition(position - 1) }} />
+          </Button>
+          <div style={{ border: '1px solid black', padding: 10 }}>
+            <GuitarNeck
+              fretCount={fretCount}
+              position={position}
+              tuning={activeTuning}
+              colorizeNotes={true}
+              scaleRoot={scaleRoot}
+              scaleToColorize={selectedNotes}
+              forceFlat={forceFlat}
+              forceNumeric={forceNumeric}
+            />
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ alignItems: 'left', alignContent: 'left', textAlign: 'left' }}>
+                <Button variant="light" size="sm" style={{ marginLeft: 10 }} onClick={e => { if (fretCount > 3) setFretCount(fretCount - 1) }}>
+                  <BsDash />
+                </Button>
+                <Button variant="light" size="sm" style={{ marginLeft: 10 }} onClick={e => { setFretCount(fretCount + 1) }}>
+                  <BsPlus />
+                </Button>
+              </div>
+              <TuningPresets onChange={setTuning} />
+            </div>
+          </div>
+          <Button variant="light" style={{ marginRight: 10 }}>
+            <BsCaretRight onClick={e => setPosition(position + 1)} />
+          </Button>
+        </div>
+        <div>
+          <ScalePresets onChange={handleSetScale} />
+        </div>
+        <div style={{ display: 'inline-flex' }}>
           <label>
-          <Form.Select aria-label="Select root key" value={scaleRoot} onChange={handleScaleRootChange}>
+            <Form.Select aria-label="Select root key" value={scaleRoot} onChange={handleScaleRootChange}>
               {Object.values(NoteNames).filter(value => typeof value === 'number').map((note, index) => (
                 <option key={index} value={note}>{forceFlat ? noteNamesArray[note as number] : noteNamesArraySharp[note as number]}</option>
               ))}
             </Form.Select>
           </label>
-          <ScalePresets onChange={setSelectedNotes} />
-          </div>
-          <div>
+          <label>{selectedNotes.scalename}</label><br />
+        </div>
+        <div>
+
+        </div>
+        <div>
           <span><ToggleButton
             className="mb-2"
             id="toggle-check"
@@ -88,15 +123,8 @@ function App() {
           </span>
         </div>
         <div style={{ display: 'block', textAlign: 'center' }}>
-        <label>
-          Visible fret Count:
-          <input type="number" value={fretCount} onChange={handleFretCountChange} width={13} max={48} min={1} />
-        </label>
-        <label>
-          Root position:
-          <input type="number" value={position} onChange={handlePositionChange} width={13} max={47} min={0} />
-        </label>
-      </div>
+          <ArpeggioPlayer rootnote={scaleRoot} scale={selectedNotes} />
+        </div>
       </div>
     </div>
   );
