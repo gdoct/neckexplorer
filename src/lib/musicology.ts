@@ -16,14 +16,13 @@ export function getScaleNoteNames(scaleRoot: NoteNames, scaleToColorize?: Array<
         return [];
     }
 
-    let noteNamesSharp = forceFlat ? noteNamesArray.slice() : noteNamesArraySharp.slice();
-    let noteNamesFlat = forceFlat ? noteNamesArraySharp.slice() : noteNamesArray.slice();
-
+    const noteNamesSharp = forceFlat ? noteNamesArray.slice() : noteNamesArraySharp.slice();
+    const noteNamesFlat = forceFlat ? noteNamesArraySharp.slice() : noteNamesArray.slice();
     const uniqueLetters = new Set();
     if (scaleToColorize) {
         for (const note of scaleToColorize) {
             const nextNote = (scaleRoot + note.interval) % 12;
-            let nextNoteName = noteNamesSharp[nextNote];
+            const nextNoteName = noteNamesSharp[nextNote];
             scaleNotes.push(nextNoteName);
             const firstLetter = nextNoteName[0];
             if (!uniqueLetters.has(firstLetter)) {
@@ -37,7 +36,7 @@ export function getScaleNoteNames(scaleRoot: NoteNames, scaleToColorize?: Array<
         if (currentNote.length > 1) {
             const firstLetter = currentNote[0];
             if (!uniqueLetters.has(firstLetter)) {
-                var index = noteNamesFlat.indexOf(currentNote);
+                const index = noteNamesFlat.indexOf(currentNote);
                 const correspondingNote = noteNamesFlat[index];
                 scaleNotes[i] = correspondingNote;
             }
@@ -55,12 +54,12 @@ export function getChromaticScaleNoteNames(
     scaleToColorizeNoteNames?: string[]
 ): string[] {
     // Define the chromatic scale (all 12 notes)
-    let scaleNoteNames = scaleToColorizeNoteNames ? scaleToColorizeNoteNames.slice() : getScaleNoteNames(scaleRoot, scaleToColorize, forceFlat, forceNumeric);
-    let chromaticNotes: string[] = forceFlat ? noteNamesArray.slice() : noteNamesArraySharp.slice();
+    const scaleNoteNames = scaleToColorizeNoteNames ? scaleToColorizeNoteNames.slice() : getScaleNoteNames(scaleRoot, scaleToColorize, forceFlat, forceNumeric);
+    const chromaticNotes: string[] = forceFlat ? noteNamesArray.slice() : noteNamesArraySharp.slice();
 
-    for (let i =0; i< scaleToColorize.length; i++) {
-        let noteToColorize = scaleToColorize[i];
-        let name = scaleNoteNames[i];
+    for (let i = 0; i < scaleToColorize.length; i++) {
+        const noteToColorize = scaleToColorize[i];
+        const name = scaleNoteNames[i];
         chromaticNotes[(scaleRoot + noteToColorize.interval) % 12] = forceNumeric && noteToColorize.name !== '' ? noteToColorize.name : name;
     }
     return chromaticNotes;

@@ -2,23 +2,21 @@ import React, { useState } from "react";
 import { NoteNames } from '../lib/musictypes'
 import { playNote } from '../lib/audio'
 import '../Music.css'
-import doubleDotImage from './img/double-dot.png';
-import singleDotImage from './img/single-dot.png';
 
 interface FretProps {
     note: NoteNames;
     noteName: string;
-    position: number;
     octave: number;
     active: boolean;
-    showDot: boolean;
     isNeck?: boolean;
     isScaleRoot? : boolean;
     backgroundColor? : string;
+    fretImage?: string;
 }
 
-const Fret: React.FC<FretProps> = ({ note, noteName, position, octave, active, showDot, isNeck, isScaleRoot, backgroundColor}) => {
+const Fret: React.FC<FretProps> = ({ note, noteName, octave, active, isNeck, isScaleRoot, backgroundColor, fretImage}) => {
     const [isClicked, setIsClicked] = useState(false);
+    const [isOver, setIsOver] = useState(false);
 
     const playGuitarNote = (note: NoteNames, octave: number) => {
         setIsClicked(true);
@@ -26,36 +24,19 @@ const Fret: React.FC<FretProps> = ({ note, noteName, position, octave, active, s
         playNote(note, octave);
     };
 
-    const fretImage = (fretposition: number):string => {
-        if (!showDot || fretposition === 0) return '';
-        const relativeposition = fretposition % 12;
-        switch (relativeposition) {
-            case 0:
-                return doubleDotImage;
-            case 3:
-            case 5:
-            case 7:
-            case 9:
-                return singleDotImage;
-            default:
-                return '';
-        }
-    }
+    
     const fretstyle = {
+        backgroundImage: fretImage,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        // backgroundImage:`url(${fretImage(position)})`,
-        // backgroundSize: '100%',
-        // backgroundRepeat: 'no-repeat',
-        // backgroundPosition: 'right 20px bottom 22px'
     };
     
     const notestyle = {
         display: 'inline-block',
         width: '20px',
         height: '20px',
-        lineHeight: '20px',
+        lineHeight: '19px',
         borderRadius: '50%',
         border: '1px solid grey',
         fontSize: '12px',
@@ -64,7 +45,7 @@ const Fret: React.FC<FretProps> = ({ note, noteName, position, octave, active, s
         fontWeight: isScaleRoot ? "bolder" : "normal",
         backgroundColor: backgroundColor,
         cursor: 'pointer',
-        transform: isClicked ? 'scale(1.5)' : 'scale(1)', // Scale up when clicked
+        transform: isClicked ? 'scale(1.5)' : isOver ? 'scale(1.3)' : 'scale(1)',
         transition: 'transform 0.3s ease', // Add smooth transition
     };
 
@@ -72,6 +53,8 @@ const Fret: React.FC<FretProps> = ({ note, noteName, position, octave, active, s
         <div title={noteName} 
              className={isNeck ? "neck" : "note"} 
              style={fretstyle}
+             onMouseOver={e => setIsOver(true)}
+             onMouseOut={e => setIsOver(false)}
              onClick={(e) => playGuitarNote(note, octave)}>
             <div className="line"/> 
             {isNeck && 

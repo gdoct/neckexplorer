@@ -15,16 +15,6 @@ interface GuitarNeckProps {
 }
 
 const GuitarNeck: React.FC<GuitarNeckProps> = ({ tuning, fretCount, position, scaleRoot, colorizeNotes, scaleToColorize, showChromaticNotes, forceFlat, forceNumeric }) => {
-    const getOctave = (rootnote: NoteNames, index: number) => {
-        if (rootnote === NoteNames.E)
-        {
-            if (index === 0) return 4;
-            return 2;
-        }
-        if (rootnote === NoteNames.A || rootnote === NoteNames.D) return 2;
-        return 3;
-    };
-
     return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
         <div style={{ position: 'relative' }}>
@@ -43,7 +33,7 @@ const GuitarNeck: React.FC<GuitarNeckProps> = ({ tuning, fretCount, position, sc
                     fretCount={fretCount}
                     className={index === 0 ? "first-snare" : index === tuning.strings.length - 1 ? "last-snare" : ""}
                     key={index}
-                    showDot={index===3}
+                    snareHasFretImages={index===3}
                     scaleRoot={scaleRoot}
                     colorizeNotes={colorizeNotes}
                     scaleToColorize={scaleToColorize}

@@ -13,7 +13,7 @@ export const playNote = (note: NoteNames, octave: number, after?: number, durati
     const releaseduration = duration? duration * 1.5 : 0.3;
     const attackduration = duration? duration / 2 : 0.1;
     
-    let playSoundAtTime = after ? after : audioContext.currentTime;
+    const playSoundAtTime = after ? after : audioContext.currentTime;
 
     const frequency = calculateFrequency(note, octave);
     const oscillator = audioContext.createOscillator();
