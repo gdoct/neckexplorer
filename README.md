@@ -1,9 +1,9 @@
 # Guitar Neck Explorer: Interactive Guitar Companion 🎸
 Welcome to Guitar Neck Explorer, designed for guitar enthusiasts and musicians of all levels. Dive into the intricacies of the guitar neck, discover new scales, and master triads with ease. This interactive tool allows you to:
 
-### Visualize: See every scale and mode come to life on any guitar tuning imaginable.
-### Customize: Adjust the size and position of the guitar neck to match your preferences.
-### Explore: Navigate through a vast library of scales and triads for every root note.
+### Visualize every scale and mode come to life on any guitar tuning imaginable.
+### Adjust the size and position of the guitar neck to match your preferences.
+### Navigate through a vast library of scales and triads for every root note.
 
 Whether you’re a beginner looking to understand the basics or a seasoned player aiming to expand your knowledge, Guitar Neck Explorer is your go-to resource for all things guitar. Get ready to enhance your practice sessions, songwriting, and improvisational skills.
 
@@ -37,11 +37,11 @@ Tunings are configurable in src/lib/tunings.ts
 - Sound is partly implemented but currently disabled until a proper guitar sound is implemented.
 
 ## Planned features
-Sound
-Guitar sounds
-Metronome integration
-Import from guitar tab and play-along (unlikely)
-...
+- Sound
+- Guitar sounds
+- Metronome integration
+- Import from guitar tab and play-along (unlikely)
+- ...
 
 ## Available Scripts
 
