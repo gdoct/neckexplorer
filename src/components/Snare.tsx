@@ -2,9 +2,6 @@ import React from "react";
 import { Scale, NoteNames } from '../lib/musictypes'
 import Fret from './Fret';
 import { getNoteAtInterval, getNoteColor, getChromaticScaleNoteNames } from '../lib/musicology';
-//import doubleDotImage from './img/dot1.png';
-import doubleDotImage from './img/dikkenerd.jpg';
-import singleDotImage from './img/dot2.png';
 
 interface SnareProps {
     rootnote: NoteNames;
@@ -12,10 +9,11 @@ interface SnareProps {
     position: number;
     fretCount: number;
     octave: number;
-    snareHasFretImages: boolean;
+    showSingleDots: boolean;
+    showDoubleDots: boolean;
     colorizeNotes?: boolean;
     scaleToColorize?: Scale;
-    showChromaticNotes? : boolean;
+    showChromaticNotes?: boolean;
     forceFlat?: boolean;
     forceNumeric?: boolean;
 }
@@ -26,7 +24,8 @@ const Snare: React.FC<SnareProps & { className?: string }> = ({
     position,
     fretCount,
     octave,
-    snareHasFretImages,
+    showSingleDots,
+    showDoubleDots,
     colorizeNotes,
     scaleToColorize,
     className,
@@ -35,22 +34,27 @@ const Snare: React.FC<SnareProps & { className?: string }> = ({
     forceNumeric
 }) => {
 
-    const fretImage = (rootnote: NoteNames, position: number):string => {
-        if (!snareHasFretImages) return '';
-        const fretposition = rootnote + position;
-        if (fretposition === 0) return '';
-        const relativeposition = fretposition % 12;
-        switch (relativeposition) {
-            case 0:
-                return doubleDotImage;
-            case 3:
-            case 5:
-            case 7:
-            case 9:
-                return singleDotImage;
-            default:
-                return '';
+    const hasDot = (position: number): boolean => {
+        // snare has a position
+        if (position === 0) return false;
+
+        const relativeposition = position % 12;
+
+        if (showDoubleDots) {
+            return (relativeposition === 0);
         }
+        else if (showSingleDots) {
+            switch (relativeposition) {
+                case 3:
+                case 5:
+                case 7:
+                case 9:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+        return false;
     }
 
     const notenames = scaleToColorize ? getChromaticScaleNoteNames(scaleRoot, scaleToColorize.notes, forceFlat, forceNumeric) : [];
@@ -60,9 +64,10 @@ const Snare: React.FC<SnareProps & { className?: string }> = ({
             <div style={{ display: 'flex' }} className={className}>
                 {Array.from({ length: fretCount }, (_, i) => {
                     // Determine the note for this position
-                    const currentnote = getNoteAtInterval(rootnote, position + i);
-                    const currentoctave = octave + Math.floor((rootnote + position) / 12 );
-                    
+                    const currentposition = position + i;
+                    const currentnote = getNoteAtInterval(rootnote, currentposition);
+                    const currentoctave = octave + Math.floor((rootnote + currentposition) / 12);
+
                     // Determine if this is a note or open string
                     const isRootOfNeck = position === 0 && i === 0;
                     const isScaleRoot = currentnote === scaleRoot;
@@ -78,6 +83,7 @@ const Snare: React.FC<SnareProps & { className?: string }> = ({
                     }
 
                     const currentNoteName = notenames[currentnote as number];
+                    const fretHasDot = hasDot(currentposition);
 
                     return (
                         <Fret
@@ -86,7 +92,7 @@ const Snare: React.FC<SnareProps & { className?: string }> = ({
                             noteName={currentNoteName}
                             key={i}
                             backgroundColor={notecolor}
-                            fretImage={fretImage(rootnote, position)}
+                            hasDot={fretHasDot}
                             isNeck={isRootOfNeck}
                             isScaleRoot={isScaleRoot}
                             octave={currentoctave}

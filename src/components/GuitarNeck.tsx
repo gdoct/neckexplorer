@@ -33,7 +33,8 @@ const GuitarNeck: React.FC<GuitarNeckProps> = ({ tuning, fretCount, position, sc
                     fretCount={fretCount}
                     className={index === 0 ? "first-snare" : index === tuning.strings.length - 1 ? "last-snare" : ""}
                     key={index}
-                    snareHasFretImages={index===3}
+                    showSingleDots={index === 3}
+                    showDoubleDots={index === 2 || index === 4}
                     scaleRoot={scaleRoot}
                     colorizeNotes={colorizeNotes}
                     scaleToColorize={scaleToColorize}

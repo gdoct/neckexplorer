@@ -40,7 +40,7 @@ const ScalePresets: React.FC<ScalePresetsProps> = ({ onChange }) => {
     }
    
     return (
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', width: '200px' }}>
             {scaleTypes.map((groupname: string, index) => {
                 let scales = presets.find(s => s.type === groupname)?.scales || [];
                 return (

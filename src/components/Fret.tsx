@@ -8,30 +8,25 @@ interface FretProps {
     noteName: string;
     octave: number;
     active: boolean;
+    hasDot: boolean;
     isNeck?: boolean;
     isScaleRoot? : boolean;
     backgroundColor? : string;
-    fretImage?: string;
 }
 
-const Fret: React.FC<FretProps> = ({ note, noteName, octave, active, isNeck, isScaleRoot, backgroundColor, fretImage}) => {
+const Fret: React.FC<FretProps> = ({ note, noteName, octave, active, hasDot, isNeck, isScaleRoot, backgroundColor}) => {
     const [isClicked, setIsClicked] = useState(false);
     const [isOver, setIsOver] = useState(false);
+
+    const enableSound = false;
 
     const playGuitarNote = (note: NoteNames, octave: number) => {
         setIsClicked(true);
         setTimeout(() => setIsClicked(false), 300);
-        playNote(note, octave);
+        if (enableSound)
+            playNote(note, octave);
     };
 
-    
-    const fretstyle = {
-        backgroundImage: fretImage,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-    };
-    
     const notestyle = {
         display: 'inline-block',
         width: '20px',
@@ -49,10 +44,32 @@ const Fret: React.FC<FretProps> = ({ note, noteName, octave, active, isNeck, isS
         transition: 'transform 0.3s ease', // Add smooth transition
     };
 
+    type PositionType = 'absolute' | 'relative' | 'fixed' | 'static' | 'sticky';
+    const relPositionValue: PositionType = 'relative';
+    const fretstyle = {
+        width: isNeck ? '40px' : '70px',
+        height: '30px',
+        display: 'flex',
+        alignItems: 'center',
+        alignContent: 'center',
+        justifyContent: 'center', // Center the content horizontally
+        position: relPositionValue, // Needed for absolute positioning of the dot
+        '--dot-display': hasDot ? 'block' : 'none'
+    };
+
+    const innerFretstyle = {
+        width: isNeck ? '40px' : '70px',
+        height: '30px',
+        display: 'flex',
+        alignItems: 'center',
+        alignContent: 'center',
+        justifyContent: 'center', // Center the content horizontally
+    }
+
     return (
         <div title={noteName} 
-             className={isNeck ? "neck" : "note"} 
-             style={fretstyle}
+             style={fretstyle} 
+             className="fretslot"
              onMouseOver={e => setIsOver(true)}
              onMouseOut={e => setIsOver(false)}
              onClick={(e) => playGuitarNote(note, octave)}>
@@ -63,7 +80,7 @@ const Fret: React.FC<FretProps> = ({ note, noteName, octave, active, isNeck, isS
                 </div>
             }
             {active && !isNeck &&
-                <div style={fretstyle} title={noteName}>
+                <div style={innerFretstyle} title={noteName}>
                     <span style={notestyle} >
                     {noteName}
                     </span>

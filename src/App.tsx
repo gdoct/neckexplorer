@@ -13,13 +13,15 @@ import TuningPresets from './components/TuningPresets'
 import { presetTunings } from './lib/presets';
 
 function App() {
-  const [fretCount, setFretCount] = useState(4);
-  const [position, setPosition] = useState(5);
+  const [fretCount, setFretCount] = useState(5);
+  const [position, setPosition] = useState(0);
   const [forceFlat, setforceFlat] = useState(true);
   const [forceNumeric, setForceNumeric] = useState(false);
   const [scaleRoot, setScaleRoot] = useState(NoteNames.C);
   const [selectedNotes, setSelectedNotes] = useState<Scale>({ scalename: "", notes: [] });
   const [activeTuning, setActiveTuning] = useState<GuitarTuning>(presetTunings[0]);
+
+  const useArpeggioPlayer = false;
 
   const handleSetScale = (scale: Scale) => {
     setSelectedNotes(scale);
@@ -47,8 +49,8 @@ function App() {
 
   return (
     <div className="App">
-      <div>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: 'block', alignItems: 'left' }}>
+        <div style={{ display: 'flex', alignItems: 'left' }}>
           <Button variant="light" style={{ marginRight: 10 }}>
             <BsCaretLeft onClick={e => { if (position > 0) setPosition(position - 1) }} />
           </Button>
@@ -63,7 +65,7 @@ function App() {
               forceFlat={forceFlat}
               forceNumeric={forceNumeric}
             />
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'left' }}>
               <div style={{ alignItems: 'left', alignContent: 'left', textAlign: 'left' }}>
                 <Button variant="light" size="sm" style={{ marginLeft: 10 }} onClick={e => { if (fretCount > 3) setFretCount(fretCount - 1) }}>
                   <BsDash />
@@ -73,58 +75,59 @@ function App() {
                 </Button>
               </div>
               <TuningPresets onChange={setTuning} />
+              <label>
+            <Form.Select aria-label="Select root key" value={scaleRoot} onChange={handleScaleRootChange} size="sm" >
+              {Object.values(NoteNames).filter(value => typeof value === 'number').map((note, index) => (
+                <option key={index} value={note}>{forceFlat ? noteNamesArray[note as number] : noteNamesArraySharp[note as number]}</option>
+              ))}
+            </Form.Select>
+          </label>
             </div>
           </div>
           <Button variant="light" style={{ marginRight: 10 }}>
             <BsCaretRight onClick={e => setPosition(position + 1)} />
           </Button>
         </div>
-        <div>
-          <ScalePresets onChange={handleSetScale} />
+        <div style={{ display: 'inline-flex', alignItems: 'left', width: '100%'  }}>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', width: '200px' }}>
+            <label>{selectedNotes.scalename}</label>
+            <div>
+              <span><ToggleButton
+                className="mb-2"
+                id="toggle-check"
+                type="checkbox"
+                variant="outline-primary"
+                checked={forceFlat}
+                value="1"
+                onChange={(e) => handleToggleFlat(e.currentTarget.checked)}
+              >
+                Using {forceFlat ? "flat" : "sharp"} notes
+              </ToggleButton>
+              </span>
+              <span>
+                <ToggleButton
+                  className="mb-2"
+                  id="toggle-numeric"
+                  type="checkbox"
+                  variant="outline-primary"
+                  checked={forceNumeric}
+                  value="0"
+                  onChange={(e) => handleToggleNumeric(e.currentTarget.checked)}
+                >
+                  Showing note {forceNumeric ? "numbers" : "names"}
+                </ToggleButton>
+              </span>
+            </div>
+          </div>
+          <div>
+            <ScalePresets onChange={handleSetScale} />
+          </div>
         </div>
-        <div style={{ display: 'inline-flex' }}>
-          <label>
-            <Form.Select aria-label="Select root key" value={scaleRoot} onChange={handleScaleRootChange}>
-              {Object.values(NoteNames).filter(value => typeof value === 'number').map((note, index) => (
-                <option key={index} value={note}>{forceFlat ? noteNamesArray[note as number] : noteNamesArraySharp[note as number]}</option>
-              ))}
-            </Form.Select>
-          </label>
-          <label>{selectedNotes.scalename}</label><br />
-        </div>
-        <div>
-
-        </div>
-        <div>
-          <span><ToggleButton
-            className="mb-2"
-            id="toggle-check"
-            type="checkbox"
-            variant="outline-primary"
-            checked={forceFlat}
-            value="1"
-            onChange={(e) => handleToggleFlat(e.currentTarget.checked)}
-          >
-            Using {forceFlat ? "flat" : "sharp"} notes
-          </ToggleButton>
-          </span>
-          <span>
-            <ToggleButton
-              className="mb-2"
-              id="toggle-numeric"
-              type="checkbox"
-              variant="outline-primary"
-              checked={forceNumeric}
-              value="0"
-              onChange={(e) => handleToggleNumeric(e.currentTarget.checked)}
-            >
-              Showing note {forceNumeric ? "numbers" : "names"}
-            </ToggleButton>
-          </span>
-        </div>
+        {useArpeggioPlayer && 
         <div style={{ display: 'block', textAlign: 'center' }}>
           <ArpeggioPlayer rootnote={scaleRoot} scale={selectedNotes} />
-        </div>
+        </div> }
       </div>
     </div>
   );

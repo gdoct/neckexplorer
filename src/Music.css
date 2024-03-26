@@ -6,6 +6,8 @@
     align-items: center;
     background-color: whitesmoke;
 }
+
+/* unused? */
 .note {
     width: 70px;
     height: 30px;
@@ -14,10 +16,21 @@
     align-items: center;
     align-content: center;
     text-align: center;
-    background-color: lightblue;
 }
 
-.note::after {
+/* unused? */
+.fretslot {
+    width: 70px;
+    height: 30px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    background-color: wheat;
+}
+
+.fretslot::after {
     content: "";
     position: absolute;
     right: 0;
@@ -26,24 +39,37 @@
     background-color: grey;
 }
 
-.first-snare .note {
-    background: linear-gradient(to top, lightblue 50%, transparent 50%);
+.fretslot::before {
+    content: "";
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    width: 6px; /* Diameter of the dot */
+    height: 6px; /* Diameter of the dot */
+    background-color: black; /* Color of the dot */
+    border-radius: 50%; /* Make it round */
+    transform: translate(-50%, -50%); /* Center the dot */
+    display: var(--dot-display, none);
 }
 
-.last-snare .note {
-    background: linear-gradient(to bottom, lightblue 50%, transparent 50%);
+.first-snare .fretslot {
+    background: linear-gradient(to top, wheat 50%, transparent 50%);
+}
+
+.last-snare .fretslot {
+    background: linear-gradient(to bottom, wheat 50%, transparent 50%);
 }
 
 .snare {
     display: flex;
 }
   
-.first-snare .note::after {
+.first-snare .fretslot::after {
     height: 50%;
     bottom: 0;
 }
 
-.last-snare .note::after {
+.last-snare .fretslot::after {
     height: 50%;
     top: 0;
 }
