@@ -1,31 +1,32 @@
 # Guitar Neck Explorer React App
 
-This project is a small react app to explore the guitar neck, scales and triads
+This project is a react app to explore the guitar neck, scales and triads
 
 # Examples:
 
-Full guitar neck with C major scale:
-![image](https://github.com/gdoct/neckexplorer/assets/11509384/dc4f4a60-4000-401c-8b00-a1bd031ba248)
+## chromatic (standard tuning)
+![image](https://github.com/gdoct/neckexplorer/assets/11509384/dfb43002-9976-4e4b-8c4c-27f0ac51d6d4)
 
-A major pentatonic scale at 2nd fret:
+## C major scale (standard tuning)
+![image](https://github.com/gdoct/neckexplorer/assets/11509384/2afdbe63-7c1a-447f-b875-4fdc81356db1)
 
-![image](https://github.com/gdoct/neckexplorer/assets/11509384/76b40d0e-61da-4dac-a1ec-c753fbc7e383)
+## Note numbers instead of names (standard tuning)
+![image](https://github.com/gdoct/neckexplorer/assets/11509384/d8927dca-1e0f-451a-9aec-17e88bf7c79d)
 
-E flat minor triad at 3rd position:
-
-![image](https://github.com/gdoct/neckexplorer/assets/11509384/1bd6eeb7-1163-42ae-b6cb-bad5e42ccc6f)
+## C minor blues pentatonic scale (open g tuning)
+![image](https://github.com/gdoct/neckexplorer/assets/11509384/45b03b69-b9c8-47ae-87d3-289b5c1067dd)
 
 Scales are configurable in src/lib/presets.ts
+Tunings are configurable in src/lib/tunings.ts
 
 ## Known issues
-Notes in the scale are not always correctly named.
+Notes in the scale are not always correctly named wrt flat or sharp.
 test framework isn't properly configured.
-9th, 11th and 13th notes don't show
+Sound is implemented but the notes sounds horrible so it is currently disabled until I find a proper guitar sound.
 
 ## Planned features
+Sound
 Metronome integration
-Horizontal scrollbar
-Note animations
 Import from guitar tab
 ...
 
