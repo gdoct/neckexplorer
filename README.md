@@ -7,16 +7,17 @@ This project is a react app to explore the guitar neck, scales and triads
 ## chromatic (standard tuning)
 ![image](https://github.com/gdoct/neckexplorer/assets/11509384/dfb43002-9976-4e4b-8c4c-27f0ac51d6d4)
 
+## Eb blues scale (Open g tuning)
+![image](https://github.com/gdoct/neckexplorer/assets/11509384/057a6420-2da3-4255-b9a8-a44a4c4c80e4)
+
 ## C major scale (standard tuning)
 ![image](https://github.com/gdoct/neckexplorer/assets/11509384/2afdbe63-7c1a-447f-b875-4fdc81356db1)
 
 ## Note numbers instead of names (standard tuning)
 ![image](https://github.com/gdoct/neckexplorer/assets/11509384/d8927dca-1e0f-451a-9aec-17e88bf7c79d)
 
-## C minor blues pentatonic scale (open g tuning)
-![image](https://github.com/gdoct/neckexplorer/assets/11509384/45b03b69-b9c8-47ae-87d3-289b5c1067dd)
-
 Scales are configurable in src/lib/presets.ts
+
 Tunings are configurable in src/lib/tunings.ts
 
 ## Known issues
