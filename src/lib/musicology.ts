@@ -10,6 +10,10 @@ export const getNoteName = (root: NoteNames, interval: number, forceSharp?: bool
     return forceSharp ? noteNamesArraySharp[note] : noteNamesArray[note];
 }
 
+export const getSimpleNoteName = (note: NoteNames, forceFlat: boolean) => {
+    return forceFlat ? noteNamesArray[note] : noteNamesArraySharp[note];
+}
+
 export function getScaleNoteNames(scaleRoot: NoteNames, scaleToColorize?: Array<{ interval: number, color: string, name: string }>, forceFlat? : boolean, forceNumeric?: boolean) {
     const scaleNotes = [];
     if (scaleRoot === undefined || scaleRoot >= noteNamesArray.length || scaleRoot < 0) {

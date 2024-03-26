@@ -4,6 +4,7 @@ import './Music.css'
 import GuitarNeck from './components/GuitarNeck'
 import ArpeggioPlayer from './components/ArpeggioPlayer'
 import { GuitarTuning, NoteNames, Scale, noteNamesArray, noteNamesArraySharp } from './lib/musictypes';
+import { getSimpleNoteName } from './lib/musicology'
 import ScalePresets from './components/ScalePresets';
 import { ToggleButton } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
@@ -76,22 +77,23 @@ function App() {
               </div>
               <TuningPresets onChange={setTuning} />
               <label>
-            <Form.Select aria-label="Select root key" value={scaleRoot} onChange={handleScaleRootChange} size="sm" >
-              {Object.values(NoteNames).filter(value => typeof value === 'number').map((note, index) => (
-                <option key={index} value={note}>{forceFlat ? noteNamesArray[note as number] : noteNamesArraySharp[note as number]}</option>
-              ))}
-            </Form.Select>
-          </label>
+                <Form.Select aria-label="Select root key" value={scaleRoot} onChange={handleScaleRootChange} size="sm" >
+                  {Object.values(NoteNames).filter(value => typeof value === 'number').map((note, index) => (
+                    <option key={index} value={note}>{forceFlat ? noteNamesArray[note as number] : noteNamesArraySharp[note as number]}</option>
+                  ))}
+                </Form.Select>
+              </label>
+              {selectedNotes.scalename && (<h6 style={{marginBottom: '6px !important'}}>{getSimpleNoteName(scaleRoot, forceFlat)} {selectedNotes.scalename}</h6>)}
             </div>
           </div>
           <Button variant="light" style={{ marginRight: 10 }}>
             <BsCaretRight onClick={e => setPosition(position + 1)} />
           </Button>
         </div>
-        <div style={{ display: 'inline-flex', alignItems: 'left', width: '100%'  }}>
-          
+        <div style={{ display: 'inline-flex', alignItems: 'left', width: '100%' }}>
+          <div style={{ width: '80px' }} ></div>
           <div style={{ display: 'flex', flexDirection: 'column', width: '200px' }}>
-            <label>{selectedNotes.scalename}</label>
+
             <div>
               <span><ToggleButton
                 className="mb-2"
@@ -120,14 +122,15 @@ function App() {
               </span>
             </div>
           </div>
+          <div style={{ width: '80px' }} ></div>
           <div>
             <ScalePresets onChange={handleSetScale} />
           </div>
         </div>
-        {useArpeggioPlayer && 
-        <div style={{ display: 'block', textAlign: 'center' }}>
-          <ArpeggioPlayer rootnote={scaleRoot} scale={selectedNotes} />
-        </div> }
+        {useArpeggioPlayer &&
+          <div style={{ display: 'block', textAlign: 'center' }}>
+            <ArpeggioPlayer rootnote={scaleRoot} scale={selectedNotes} />
+          </div>}
       </div>
     </div>
   );
