@@ -7,6 +7,12 @@ Welcome to Guitar Neck Explorer, designed for guitar enthusiasts and musicians o
 
 Whether you’re a beginner looking to understand the basics or a seasoned player aiming to expand your knowledge, Guitar Neck Explorer is your go-to resource for all things guitar. Get ready to enhance your practice sessions, songwriting, and improvisational skills.
 
+# Use:
+```
+$ git clone https://github.com/gdoct/neckexplorer.git
+$ cd neckexplorer
+$ npm start
+```
 # Examples:
 
 ## chromatic (standard tuning)
