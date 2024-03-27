@@ -29,6 +29,11 @@ export interface ScaleType {
     scales: Scale[];
 }
 
+export interface GuitarTuningGroup {
+    name: string;
+    tunings: GuitarTuning[];
+}
+
 export interface GuitarTuning {
     name: string;
     strings: GuitarString[];

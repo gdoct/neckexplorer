@@ -1,7 +1,7 @@
 import React from "react";
 import { Scale, NoteNames } from '../lib/musictypes'
 import Fret from './Fret';
-import { getNoteAtInterval, getNoteColor, getChromaticScaleNoteNames } from '../lib/musicology';
+import { getNoteAtInterval, getNoteColor, getChromaticScaleNoteNames, getSimpleNoteName } from '../lib/musicology';
 
 interface SnareProps {
     rootnote: NoteNames;
@@ -82,7 +82,7 @@ const Snare: React.FC<SnareProps & { className?: string }> = ({
                         isactive = false;
                     }
 
-                    const currentNoteName = notenames[currentnote as number];
+                    const currentNoteName = isRootOfNeck ? getSimpleNoteName(currentnote, forceFlat? true: false) : notenames[currentnote as number];
                     const fretHasDot = hasDot(currentposition);
 
                     return (

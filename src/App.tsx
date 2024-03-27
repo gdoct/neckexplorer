@@ -11,7 +11,7 @@ import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
 import { BsCaretLeft, BsCaretRight, BsPlus, BsDash } from 'react-icons/bs';
 import TuningPresets from './components/TuningPresets'
-import { presetTunings } from './lib/presets';
+import { presetTunings } from './lib/tunings';
 
 function App() {
   const [fretCount, setFretCount] = useState(5);
@@ -20,7 +20,8 @@ function App() {
   const [forceNumeric, setForceNumeric] = useState(false);
   const [scaleRoot, setScaleRoot] = useState(NoteNames.C);
   const [selectedNotes, setSelectedNotes] = useState<Scale>({ scalename: "", notes: [] });
-  const [activeTuning, setActiveTuning] = useState<GuitarTuning>(presetTunings[0]);
+  const defaultTuning = presetTunings[0].tunings[0];
+  const [activeTuning, setActiveTuning] = useState<GuitarTuning>(defaultTuning);
 
   const useArpeggioPlayer = false;
 
