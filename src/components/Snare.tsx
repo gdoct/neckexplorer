@@ -1,5 +1,6 @@
 import React from "react";
-import { Scale, NoteNames } from '../lib/musictypes'
+import { NoteNames } from '../lib/musictypes'
+import { SnareDisplaySettings, FretDisplaySettings } from '../lib/interfaces'
 import Fret from './Fret';
 import { getNoteAtInterval, getNoteColor, getChromaticScaleNoteNames, getSimpleNoteName } from '../lib/musicology';
 
@@ -9,11 +10,7 @@ interface SnareProps {
     position: number;
     fretCount: number;
     octave: number;
-    showSingleDots: boolean;
-    showDoubleDots: boolean;
-    colorizeNotes?: boolean;
-    scaleToColorize?: Scale;
-    showChromaticNotes?: boolean;
+    displaySettings: SnareDisplaySettings,
     forceFlat?: boolean;
     forceNumeric?: boolean;
 }
@@ -24,12 +21,8 @@ const Snare: React.FC<SnareProps & { className?: string }> = ({
     position,
     fretCount,
     octave,
-    showSingleDots,
-    showDoubleDots,
-    colorizeNotes,
-    scaleToColorize,
+    displaySettings,
     className,
-    showChromaticNotes,
     forceFlat,
     forceNumeric
 }) => {
@@ -40,10 +33,10 @@ const Snare: React.FC<SnareProps & { className?: string }> = ({
 
         const relativeposition = position % 12;
 
-        if (showDoubleDots) {
+        if (displaySettings.showDoubleDots) {
             return (relativeposition === 0);
         }
-        else if (showSingleDots) {
+        else if (displaySettings.showSingleDots) {
             switch (relativeposition) {
                 case 3:
                 case 5:
@@ -57,33 +50,35 @@ const Snare: React.FC<SnareProps & { className?: string }> = ({
         return false;
     }
 
-    const notenames = scaleToColorize ? getChromaticScaleNoteNames(scaleRoot, scaleToColorize.notes, forceFlat, forceNumeric) : [];
+    const notenames = displaySettings.scaleToColorize ? getChromaticScaleNoteNames(scaleRoot, displaySettings.scaleToColorize.notes, forceFlat, forceNumeric) : [];
 
     return (
         <div className="snare">
             <div style={{ display: 'flex' }} className={className}>
                 {Array.from({ length: fretCount }, (_, i) => {
-                    // Determine the note for this position
                     const currentposition = position + i;
                     const currentnote = getNoteAtInterval(rootnote, currentposition);
                     const currentoctave = octave + Math.floor((rootnote + currentposition) / 12);
-
-                    // Determine if this is a note or open string
                     const isRootOfNeck = position === 0 && i === 0;
-                    const isScaleRoot = currentnote === scaleRoot;
-
                     let notecolor: string = "";
                     let isactive: boolean = true;
-
-                    if (colorizeNotes === true && scaleRoot !== undefined && !isRootOfNeck) {
-                        notecolor = getNoteColor(currentnote, scaleRoot, scaleToColorize?.notes);
+                    if (displaySettings.colorizeNotes === true && scaleRoot !== undefined && !isRootOfNeck) {
+                        notecolor = getNoteColor(currentnote, scaleRoot, displaySettings.scaleToColorize?.notes);
                         isactive = notecolor !== "";
-                    } else if (!showChromaticNotes) {
+                    } else if (!displaySettings.showChromaticNotes) {
                         isactive = false;
                     }
 
                     const currentNoteName = isRootOfNeck ? getSimpleNoteName(currentnote, forceFlat? true: false) : notenames[currentnote as number];
-                    const fretHasDot = hasDot(currentposition);
+
+                    const fretSettings  : FretDisplaySettings = {
+                        backgroundColor: isactive ? notecolor : undefined,
+                        hasDot: hasDot(currentposition),
+                        isNeck: position === 0 && i === 0,
+                        isScaleRoot: currentnote === scaleRoot,
+                        hasRomanNumeral: (displaySettings.showRootPosition && i === 0) ? true : false,
+                        rootposition: position
+                    };
 
                     return (
                         <Fret
@@ -91,11 +86,8 @@ const Snare: React.FC<SnareProps & { className?: string }> = ({
                             note={currentnote}
                             noteName={currentNoteName}
                             key={i}
-                            backgroundColor={notecolor}
-                            hasDot={fretHasDot}
-                            isNeck={isRootOfNeck}
-                            isScaleRoot={isScaleRoot}
                             octave={currentoctave}
+                            displaySettings={fretSettings}
                         />
                     );
                 })}

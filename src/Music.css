@@ -173,3 +173,9 @@
     position: 'absolute';
   /*  transform: 'translateY(-460%) translateX(-3%)';*/
 }
+
+.roman-numeral {
+    position: absolute;
+    bottom: 15px; 
+    left: 2px; 
+  }
