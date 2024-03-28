@@ -34,31 +34,14 @@ export const presetTunings: GuitarTuningGroup[] = [
             {
                 "name": "Open G",
                 "strings": [
-                    { rootnote: NoteNames.D, octave: 3 },
-                    { rootnote: NoteNames.B, octave: 3 },
-                    { rootnote: NoteNames.G, octave: 2 },
-                    { rootnote: NoteNames.D, octave: 2 },
+                    { rootnote: NoteNames.D, octave: 4 },
+                    { rootnote: NoteNames.B, octave: 4 },
                     { rootnote: NoteNames.G, octave: 3 },
-                    { rootnote: NoteNames.D, octave: 3 }
+                    { rootnote: NoteNames.D, octave: 3 },
+                    { rootnote: NoteNames.G, octave: 2 },
+                    { rootnote: NoteNames.D, octave: 2 }
                 ]
             }
         ]
     },
-
-    {
-        name: "Other instruments",
-        tunings: [
-            {
-                "name": "Bass",
-                "strings": [
-                    { rootnote: NoteNames.D, octave: 3 },
-                    { rootnote: NoteNames.B, octave: 3 },
-                    { rootnote: NoteNames.G, octave: 2 },
-                    { rootnote: NoteNames.D, octave: 2 },
-                    { rootnote: NoteNames.G, octave: 3 },
-                    { rootnote: NoteNames.D, octave: 3 }
-                ]
-            }
-        ]
-    }
 ];
