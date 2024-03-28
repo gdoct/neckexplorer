@@ -17,16 +17,16 @@ $ npm start
 # Examples:
 
 ## chromatic (standard tuning)
-![image](https://github.com/gdoct/neckexplorer/assets/11509384/dfb43002-9976-4e4b-8c4c-27f0ac51d6d4)
+![image](https://github.com/gdoct/neckexplorer/assets/11509384/3ed5c89c-51d9-4c20-98bc-6bbc50b28f2e)
 
 ## Eb blues scale (Open g tuning)
 ![image](https://github.com/gdoct/neckexplorer/assets/11509384/057a6420-2da3-4255-b9a8-a44a4c4c80e4)
 
 ## C major scale (standard tuning)
-![image](https://github.com/gdoct/neckexplorer/assets/11509384/2afdbe63-7c1a-447f-b875-4fdc81356db1)
+![image](https://github.com/gdoct/neckexplorer/assets/11509384/860add7f-1138-40aa-bb9a-4d86edcef901)
 
 ## Note numbers instead of names (standard tuning)
-![image](https://github.com/gdoct/neckexplorer/assets/11509384/d8927dca-1e0f-451a-9aec-17e88bf7c79d)
+![image](https://github.com/gdoct/neckexplorer/assets/11509384/9716b807-2728-4bb6-956e-c4f9a1cf9b3e)
 
 Scales are configurable in src/lib/presets.ts
 
