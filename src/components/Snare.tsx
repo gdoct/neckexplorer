@@ -2,7 +2,7 @@ import React from "react";
 import { NoteNames } from '../lib/musictypes'
 import { SnareDisplaySettings, FretDisplaySettings } from '../lib/interfaces'
 import Fret from './Fret';
-import { getNoteAtInterval, getNoteColor, getChromaticScaleNoteNames, getSimpleNoteName } from '../lib/musicology';
+import { getNoteAtInterval, getNoteColor, getChromaticScaleNoteNames, getSimpleNoteName, convertToRoman } from '../lib/musicology';
 
 interface SnareProps {
     rootnote: NoteNames;
@@ -28,7 +28,6 @@ const Snare: React.FC<SnareProps & { className?: string }> = ({
 }) => {
 
     const hasDot = (position: number): boolean => {
-        // snare has a position
         if (position === 0) return false;
 
         const relativeposition = position % 12;
@@ -70,14 +69,15 @@ const Snare: React.FC<SnareProps & { className?: string }> = ({
                     }
 
                     const currentNoteName = isRootOfNeck ? getSimpleNoteName(currentnote, forceFlat? true: false) : notenames[currentnote as number];
-
+                    const hasRoman = (displaySettings.showRootPosition && (i === 0 || i === fretCount - 1)) ? true : false;
                     const fretSettings  : FretDisplaySettings = {
                         backgroundColor: isactive ? notecolor : undefined,
                         hasDot: hasDot(currentposition),
                         isNeck: position === 0 && i === 0,
                         isScaleRoot: currentnote === scaleRoot,
-                        hasRomanNumeral: (displaySettings.showRootPosition && i === 0) ? true : false,
-                        rootposition: position
+                        hasRomanNumeral: hasRoman,
+                        romanNumeral: hasRoman ? convertToRoman(position + i) : '',
+                        fretIndex: i
                     };
 
                     return (

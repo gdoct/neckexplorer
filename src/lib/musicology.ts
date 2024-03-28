@@ -57,7 +57,6 @@ export function getChromaticScaleNoteNames(
     forceNumeric?: boolean,
     scaleToColorizeNoteNames?: string[]
 ): string[] {
-    // Define the chromatic scale (all 12 notes)
     const scaleNoteNames = scaleToColorizeNoteNames ? scaleToColorizeNoteNames.slice() : getScaleNoteNames(scaleRoot, scaleToColorize, forceFlat, forceNumeric);
     const chromaticNotes: string[] = forceFlat ? noteNamesArray.slice() : noteNamesArraySharp.slice();
 

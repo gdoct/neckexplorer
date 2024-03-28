@@ -1,43 +1,98 @@
-import { NoteNames } from './musictypes'
+import { NoteNames, noteNamesArraySharp } from './musictypes'
 
-// Calculate the frequency of a note in a given octave
-const calculateFrequency = (note: NoteNames, octave: number): number => {
-    const baseFrequency = 440.0; // A4 frequency
-    const semitoneRatio = 2 ** (1 / 12); // 12-tone equal temperament
-    return baseFrequency * (semitoneRatio ** (note - 9 + (octave - 4) * 12));
+const samplesfolder = '/samples/';
+
+const transpose = (audioContext: AudioContext, buffer: AudioBuffer, octave: number): AudioBufferSourceNode => {
+    // Usage example:
+    // To transpose C3 to C2, steps would be -12 (down one octave)
+    // To transpose A5 to A7, steps would be 24 (up two octaves)
+    const steps = octave * 12;
+    // Create a buffer source
+    const source = audioContext.createBufferSource();
+    source.buffer = buffer;
+
+    // Calculate the playback rate for transposition
+    const semitoneRatio = Math.pow(2, 1 / 12);
+    source.playbackRate.value = Math.pow(semitoneRatio, steps);
+
+    return source;
 };
 
-export const playNote = (note: NoteNames, octave: number, after?: number, duration?: number) => {
-    const audioContext = new AudioContext();
-    const noteduration = duration? duration : 0.2;
-    const releaseduration = duration? duration * 1.5 : 0.3;
-    const attackduration = duration? duration / 2 : 0.1;
-    
-    const playSoundAtTime = after ? after : audioContext.currentTime;
+const availableNoteFiles = ['A2',
+    'A3',
+    'A4',
+    'As2',
+    'As3',
+    'As4',
+    'B2',
+    'B3',
+    'B4',
+    'C3',
+    'C4',
+    //'C5',
+    'Cs3',
+    'Cs4',
+    //'Cs5',
+    'D2',
+    'D3',
+    'D4',
+    'D5',
+    'Ds2',
+    'Ds3',
+    'Ds4',
+    'E2',
+    'E3',
+    'E4',
+    'F2',
+    'F3',
+    'F4',
+    'Fs2',
+    'Fs3',
+    'Fs4',
+    'G2',
+    'G3',
+    'G4',
+    'Gs2',
+    'Gs3',
+    'Gs4'];
 
-    const frequency = calculateFrequency(note, octave);
-    const oscillator = audioContext.createOscillator();
-    oscillator.type = 'sawtooth';
-    oscillator.frequency.value = frequency;
+const getBaseNoteFileName = (note: NoteNames, octave: number): { fileName: string, octaveShift: number } => {
+    let octaveShift = 0;
+    if (note < NoteNames.C) octaveShift -= 1;
+    let baseNoteFileName = noteNamesArraySharp[note].replace('#', 's') + octave;
+    if (!availableNoteFiles.includes(baseNoteFileName)) {
+        if (octave < 3) {
+            octaveShift = -(3 - octave);
+            if (octaveShift < -3) octaveShift = -3;
+        }
+        else if (octave > 4) {
+            octaveShift = octave - 4;
+            if (octaveShift > 7) octaveShift = 7;
+        }
+        baseNoteFileName = noteNamesArraySharp[note].replace('#', 's') + (octave - octaveShift)
+    }
 
-    // Create a gain node for the envelope
-    const gainNode = audioContext.createGain();
-    gainNode.gain.setValueAtTime(0, playSoundAtTime); // Initial volume
-    gainNode.gain.linearRampToValueAtTime(1, playSoundAtTime + attackduration);  // A ttack
-    gainNode.gain.linearRampToValueAtTime(0.7, playSoundAtTime + noteduration);  // D ecay
-    gainNode.gain.setValueAtTime(0.7, playSoundAtTime + noteduration);           // S ustain
-    gainNode.gain.linearRampToValueAtTime(0, playSoundAtTime + releaseduration); // R elease
+    return { fileName: baseNoteFileName, octaveShift };
+};
 
-    // Connect the oscillator to the gain node
-    oscillator.connect(gainNode);
+export const playNote = async (note: NoteNames, octave: number, duration: number = 1, after?: number) => {
+    // note NoteNames.A# in octave 5 will resolve to /samples/As5.wav
+    let baseNoteFilename = getBaseNoteFileName(note, octave);
+    let noteUri = samplesfolder + baseNoteFilename.fileName + '.wav';
 
-     // Add a chorus effect
-     const chorus = audioContext.createDelay();
-     chorus.delayTime.value = noteduration / 5;
-     oscillator.connect(chorus);
-     chorus.connect(audioContext.destination);
+    const response = await fetch(noteUri);
+    if (response.ok) {
+        const arrayBuffer = await response.arrayBuffer();
+        const audioContext = new AudioContext();
 
-    oscillator.connect(audioContext.destination);
-    oscillator.start(playSoundAtTime);
-    oscillator.stop(playSoundAtTime + noteduration);
-}
+        audioContext.decodeAudioData(arrayBuffer, (audioBuffer) => {
+            const source = transpose(audioContext, audioBuffer, baseNoteFilename.octaveShift);
+            source.connect(audioContext.destination);
+            const startTime = audioContext.currentTime + (after || 0);
+            source.start(startTime);
+            source.stop(startTime + duration);
+        });
+    } else {
+        console.error('Audio file does not exist:', noteUri);
+    }
+};

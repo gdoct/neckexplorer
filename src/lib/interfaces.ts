@@ -15,5 +15,6 @@ export interface FretDisplaySettings {
     isNeck: boolean,
     isScaleRoot: boolean,
     hasRomanNumeral: boolean,
-    rootposition: number
+    romanNumeral: string,
+    fretIndex: number
 };

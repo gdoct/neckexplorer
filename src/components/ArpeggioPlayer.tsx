@@ -11,7 +11,7 @@ interface ArpeggioPlayerProps {
 const ArpeggioPlayer: React.FC<ArpeggioPlayerProps> = ({ scale, rootnote }) => {
     const [enableArpeggios, setEnableArpeggios] = useState<boolean>(true);
 
-    const playArpeggio = (e: any) => {
+    const playArpeggio = async (e: any) => {
         const deftimeout = 100;
         setEnableArpeggios(false);
         let nextnote: number = rootnote;
@@ -21,9 +21,7 @@ const ArpeggioPlayer: React.FC<ArpeggioPlayerProps> = ({ scale, rootnote }) => {
                 nextnote += note.interval;
                 const nextnotenorm = nextnote % 12;
                 const octave = Math.floor(nextnote / 12) + 2;
-                const timeout = deftimeout * (index + scales * scale.notes.length);
-                const timeout_time = Date.now() + timeout
-                playNote(nextnotenorm, octave, timeout_time , 0.2);
+                await playNote(nextnotenorm, octave, 1, index);
             }
         }
         setTimeout(() => {

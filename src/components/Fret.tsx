@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { NoteNames } from '../lib/musictypes'
-import { convertToRoman } from '../lib/musicology';
 import { FretDisplaySettings } from '../lib/interfaces'
 import { playNote } from '../lib/audio'
 import '../Music.css'
@@ -17,7 +16,7 @@ const Fret: React.FC<FretProps> = ({ note, noteName, octave, active, displaySett
     const [isClicked, setIsClicked] = useState(false);
     const [isOver, setIsOver] = useState(false);
 
-    const enableSound = false;
+    const enableSound = true;
 
     const playGuitarNote = (note: NoteNames, octave: number) => {
         setIsClicked(true);
@@ -40,7 +39,7 @@ const Fret: React.FC<FretProps> = ({ note, noteName, octave, active, displaySett
         backgroundColor: displaySettings.backgroundColor,
         cursor: 'pointer',
         transform: isClicked ? 'scale(1.5)' : isOver ? 'scale(1.3)' : 'scale(1)',
-        transition: 'transform 0.3s ease', // Add smooth transition
+        transition: 'transform 0.3s ease', 
     };
 
     type PositionType = 'absolute' | 'relative' | 'fixed' | 'static' | 'sticky';
@@ -51,10 +50,9 @@ const Fret: React.FC<FretProps> = ({ note, noteName, octave, active, displaySett
         display: 'flex',
         alignItems: 'center',
         alignContent: 'center',
-        justifyContent: 'center', // Center the content horizontally
-        position: relPositionValue, // Needed for absolute positioning of the dot
+        justifyContent: 'center', 
+        position: relPositionValue, 
         '--dot-display': displaySettings.hasDot ? 'block' : 'none',
-
     };
 
     const innerFretstyle = {
@@ -63,7 +61,7 @@ const Fret: React.FC<FretProps> = ({ note, noteName, octave, active, displaySett
         display: 'flex',
         alignItems: 'center',
         alignContent: 'center',
-        justifyContent: 'center', // Center the content horizontally
+        justifyContent: 'center',
     }
 
     const getRomanDisplaySize = (roman: string) => {
@@ -79,24 +77,30 @@ const Fret: React.FC<FretProps> = ({ note, noteName, octave, active, displaySett
         return 10;
     };
 
-    const romanNumeral = displaySettings.hasRomanNumeral ? convertToRoman(displaySettings.rootposition) : '';
-    const romanDisplaySize = getRomanDisplaySize(romanNumeral);
-
+    const romanDisplaySize = getRomanDisplaySize(displaySettings.romanNumeral);
+    const absPositionValue: PositionType = 'absolute';
+    const isFirstFret = displaySettings.fretIndex === 0;
+    const romanNumeralStyle = {
+        position: absPositionValue,
+        bottom: '15px', 
+        left: isFirstFret ? '2px' : undefined,
+        right: isFirstFret ? undefined : '-4px',
+    };
     return (
-        <div title={noteName} 
+        <div title={noteName + octave} 
              style={fretstyle} 
              className="fretslot"
              onMouseOver={e => setIsOver(true)}
              onMouseOut={e => setIsOver(false)}
              onClick={(e) => playGuitarNote(note, octave)}>
                 { displaySettings.hasRomanNumeral && (
-                <svg width="20" height="20" className="roman-numeral">
+                <svg width="20" height="20" style={romanNumeralStyle}>
                     <text 
                     x="0" 
                     y="15" 
                     font-family="Garamond, serif" 
                     font-size={romanDisplaySize}
-                    fill="grey">{romanNumeral}</text>
+                    fill="grey">{displaySettings.romanNumeral}</text>
                 </svg> )}
             <div className="line"/> 
             {displaySettings.isNeck && 
