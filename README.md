@@ -11,6 +11,7 @@ Whether you’re a beginner looking to understand the basics or a seasoned playe
 ```
 $ git clone https://github.com/gdoct/neckexplorer.git
 $ cd neckexplorer
+$ npm install
 $ npm start
 ```
 # Examples:
