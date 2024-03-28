@@ -35,14 +35,12 @@ Tunings are configurable in src/lib/tunings.ts
 ## Known issues
 - Notes in the scale are not always correctly named wrt flat or sharp.
 - test framework isn't properly configured.
-- Sound is partly implemented but currently disabled until a proper guitar sound is implemented.
 
 ## Planned features
-- Sound
-- Guitar sounds
 - Metronome integration
+- Play along with arpeggios
 - Import from guitar tab and play-along (unlikely)
-- ...
+- Add many more tunings, instruments and scales
 
 ## Available Scripts
 
