@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/neckexplorer/static/css/main.775d2a85.css",
+    "main.js": "/neckexplorer/static/js/main.44217024.js",
+    "index.html": "/neckexplorer/index.html",
+    "main.775d2a85.css.map": "/neckexplorer/static/css/main.775d2a85.css.map",
+    "main.44217024.js.map": "/neckexplorer/static/js/main.44217024.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.775d2a85.css",
+    "static/js/main.44217024.js"
+  ]
+}
