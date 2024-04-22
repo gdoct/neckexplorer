@@ -14,6 +14,10 @@ $ cd neckexplorer
 $ npm install
 $ npm start
 ```
+
+# Try it here:
+https://gdoct.github.io/neckexplorer/index.html
+
 # Examples:
 
 ## chromatic (standard tuning)

@@ -12,6 +12,7 @@ import { Button } from 'react-bootstrap';
 import { BsCaretLeft, BsCaretRight, BsPlus, BsDash } from 'react-icons/bs';
 import TuningPresets from './components/TuningPresets'
 import { presetTunings } from './lib/tunings';
+import TabPlayer from './components/TabPlayer';
 
 function App() {
   const [fretCount, setFretCount] = useState(5);
@@ -24,6 +25,7 @@ function App() {
   const [activeTuning, setActiveTuning] = useState<GuitarTuning>(defaultTuning);
 
   const useArpeggioPlayer = false;
+  const useTabPlayer = true;
 
   const handleSetScale = (scale: Scale) => {
     setSelectedNotes(scale);
@@ -131,6 +133,11 @@ function App() {
         {useArpeggioPlayer &&
           <div style={{ display: 'block', textAlign: 'center' }}>
             <ArpeggioPlayer rootnote={scaleRoot} scale={selectedNotes} />
+          </div>}
+
+          {useTabPlayer &&
+          <div style={{ display: 'block', textAlign: 'center' }}>
+            {/* <TabPlayer  /> */}
           </div>}
       </div>
     </div>

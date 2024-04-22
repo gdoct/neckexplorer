@@ -163,6 +163,18 @@ export const presetScales = [
                     { interval: 9, color: initialcolors[5], name: "6" },
                     { interval: 11, color: initialcolors[6], name: "7" }
                 ]
+            },
+            {
+                "scalename": "Harmonic major scale",
+                "notes": [
+                    { interval: 0, color: initialcolors[0], name: "" },
+                    { interval: 2, color: initialcolors[1], name: "2" },
+                    { interval: 4, color: initialcolors[2], name: "3" },
+                    { interval: 5, color: initialcolors[3], name: "4" },
+                    { interval: 7, color: initialcolors[4], name: "5" },
+                    { interval: 8, color: initialcolors[5], name: "b6" },
+                    { interval: 11, color: initialcolors[6], name: "7" }
+                ]
             }
         ]
     },
