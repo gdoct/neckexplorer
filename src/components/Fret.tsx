@@ -98,8 +98,8 @@ const Fret: React.FC<FretProps> = ({ note, noteName, octave, active, displaySett
                     <text 
                     x="0" 
                     y="15" 
-                    font-family="Garamond, serif" 
-                    font-size={romanDisplaySize}
+                    fontFamily="Garamond, serif" 
+                    fontSize={romanDisplaySize}
                     fill="grey">{displaySettings.romanNumeral}</text>
                 </svg> )}
             <div className="line"/> 

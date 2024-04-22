@@ -19,7 +19,7 @@ const GuitarNeck: React.FC<GuitarNeckProps> = ({ tuning, fretCount, position, sc
     return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
         <div style={{ position: 'relative' }}>
-            {tuning.strings.map((guitarstring, index) => {
+            {tuning.strings && tuning.strings.map((guitarstring, index) => {
                 // these numbers must be made relative to the number of snares in the tuning
                 const displaySettings : SnareDisplaySettings = {
                     showSingleDots:index === 3,

@@ -15,8 +15,8 @@ import { presetTunings } from './lib/tunings';
 import TabPlayer from './components/TabPlayer';
 
 function App() {
-  const [fretCount, setFretCount] = useState(5);
-  const [position, setPosition] = useState(0);
+  const [fretCount, setFretCount] = useState(6);
+  const [position, setPosition] = useState(4);
   const [forceFlat, setforceFlat] = useState(true);
   const [forceNumeric, setForceNumeric] = useState(false);
   const [scaleRoot, setScaleRoot] = useState(NoteNames.C);
