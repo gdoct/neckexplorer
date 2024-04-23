@@ -34,14 +34,12 @@ function App() {
     setScaleRoot(Number(event.target.value));
   };
 
-  const handleToggleFlat = (newvalue: boolean) => {
-    if (newvalue) { setforceFlat(newvalue); }
-    else { setforceFlat(newvalue); }
+  const handleToggleFlat = () => {
+    setforceFlat(!forceFlat);
   };
 
-  const handleToggleNumeric = (newvalue: boolean) => {
-    if (newvalue) { setForceNumeric(newvalue); }
-    else { setForceNumeric(newvalue); }
+  const handleToggleNumeric = () => {
+    setForceNumeric(!forceNumeric);
   };
 
   const setTuning = (t?: GuitarTuning) => {
@@ -78,6 +76,22 @@ function App() {
                 </Button>
               </div>
               <TuningPresets onChange={setTuning} />
+              <span><Button
+                size='sm'
+                variant="outline-secondary"
+                onClick={(e) => handleToggleFlat()}
+              ><span className='musicText' >{forceFlat ? "b" : "#"}</span></Button>
+              </span>
+              <span>
+                <Button
+                  size='sm'
+                  className="sm"
+                  variant="outline-secondary"
+                  onClick={(e) => handleToggleNumeric()}
+                >
+                  <span className='musictext'>{forceNumeric ? "1" : "A"}</span>
+                </Button>
+              </span>
               <label>
                 <Form.Select aria-label="Select root key" value={scaleRoot} onChange={handleScaleRootChange} size="sm" >
                   {Object.values(NoteNames).filter(value => typeof value === 'number').map((note, index) => (
@@ -85,7 +99,6 @@ function App() {
                   ))}
                 </Form.Select>
               </label>
-              {/* {selectedNotes.scalename && (<h6 style={{marginBottom: '6px !important'}}>{getSimpleNoteName(scaleRoot, forceFlat)} {selectedNotes.scalename}</h6>)} */}
             </div>
           </div>
           <Button variant="light" style={{ marginRight: 10 }} onClick={e => setPosition(position + 1)} >
@@ -93,37 +106,6 @@ function App() {
           </Button>
         </div>
         <div style={{ display: 'inline-flex', alignItems: 'left', width: '100%' }}>
-          <div style={{ width: '80px' }} ></div>
-          <div style={{ display: 'flex', flexDirection: 'column', width: '200px' }}>
-
-            <div>
-              <span><ToggleButton
-                className="mb-2"
-                id="toggle-check"
-                type="checkbox"
-                variant="outline-primary"
-                checked={forceFlat}
-                value="1"
-                onChange={(e) => handleToggleFlat(e.currentTarget.checked)}
-              >
-                Using {forceFlat ? "flat" : "sharp"} notes
-              </ToggleButton>
-              </span>
-              <span>
-                <ToggleButton
-                  className="mb-2"
-                  id="toggle-numeric"
-                  type="checkbox"
-                  variant="outline-primary"
-                  checked={forceNumeric}
-                  value="0"
-                  onChange={(e) => handleToggleNumeric(e.currentTarget.checked)}
-                >
-                  Showing note {forceNumeric ? "numbers" : "names"}
-                </ToggleButton>
-              </span>
-            </div>
-          </div>
           <div style={{ width: '80px' }} ></div>
           <div>
             <ScalePresets onChange={handleSetScale} />

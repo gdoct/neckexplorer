@@ -23,7 +23,15 @@ const ListItemStyle = {
 
 const ScalePresets: React.FC<ScalePresetsProps> = ({ onChange }) => {
     const selectScale = function (event: any, scaledata: ScaleData) {
-        if (scaledata && scaledata.scale) {
+        if (!scaledata.enabled) {
+            if (scaledata.name === activeScaleGroup) {
+                setActiveScaleGroup('');
+            } else {
+                setActiveScaleGroup(scaledata.name);
+            }
+            return;
+        }
+        if (scaledata.scale) {
             setActiveScale(scaledata);
             let actualscale: Scale = scaledata.scale;
             if (onChange && actualscale) {
@@ -33,35 +41,39 @@ const ScalePresets: React.FC<ScalePresetsProps> = ({ onChange }) => {
     };
 
     const [activeScale, setActiveScale] = useState<ScaleData | undefined>(undefined);
+    const [activeScaleGroup, setActiveScaleGroup] = useState<string>("");
 
     const getItemStyle = (item: ScaleData) => { 
         if (!item.enabled) return { 
             backgroundColor: 'darkslategray',
-            color: 'antiquewhite'
+            color: 'antiquewhite',
+            padding: '0px 10px'
         }
         if (activeScale && item.name === activeScale.name && item.type === activeScale.type) {
             return { 
-                backgroundColor: 'lightyellow'
+                backgroundColor: 'lightyellow',
+                padding: '0px 10px'
             }
         }
-        return {};
+        return { padding: '0px 10px' };
     };
 
     let allScales: ScaleData[] = [];
     for (const presetgroup of presetScales) {
         allScales.push({ enabled: false, name: presetgroup.type, type: presetgroup.type, scale: undefined });
-        for (const scale of presetgroup.scales) {
-            allScales.push({ enabled: true, name: scale.scalename, type: presetgroup.type, scale: scale });
+        if (presetgroup.type === activeScaleGroup) {
+            for (const scale of presetgroup.scales) {
+                allScales.push({ enabled: true, name: scale.scalename, type: presetgroup.type, scale: scale });
+            }
         }
     }
     return (
-        <div style={{ height: "200px", overflowY: "scroll", 'margin': '5px' }}>
+        <div style={{ height: "260px", width: "250px", overflowY: "scroll", 'margin': '5px' }}>
                 <ListGroup>
                     {allScales.map((scale, index) => (
                         <ListGroup.Item
                             key={index}
                             action
-                            disabled={!scale.enabled}
                             onClick={e => selectScale(e.target, scale)}
                             style={getItemStyle(scale)}
                         >

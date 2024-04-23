@@ -3,3 +3,8 @@
 .App {
   text-align: center;
 }
+
+.musicText {
+  font-family: Georgia, serif;
+  font-style: italic;
+}
