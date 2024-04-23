@@ -4,7 +4,6 @@ import './Music.css'
 import GuitarNeck from './components/GuitarNeck'
 import ArpeggioPlayer from './components/ArpeggioPlayer'
 import { GuitarTuning, NoteNames, Scale, noteNamesArray, noteNamesArraySharp } from './lib/musictypes';
-import { getSimpleNoteName } from './lib/musicology'
 import ScalePresets from './components/ScalePresets';
 import { ToggleButton } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
@@ -12,7 +11,7 @@ import { Button } from 'react-bootstrap';
 import { BsCaretLeft, BsCaretRight, BsPlus, BsDash } from 'react-icons/bs';
 import TuningPresets from './components/TuningPresets'
 import { presetTunings } from './lib/tunings';
-import TabPlayer from './components/TabPlayer';
+// import TabPlayer from './components/TabPlayer';
 
 function App() {
   const [fretCount, setFretCount] = useState(6);
@@ -55,8 +54,8 @@ function App() {
     <div className="App">
       <div style={{ display: 'block', alignItems: 'left' }}>
         <div style={{ display: 'flex', alignItems: 'left' }}>
-          <Button variant="light" style={{ marginRight: 10 }}>
-            <BsCaretLeft onClick={e => { if (position > 0) setPosition(position - 1) }} />
+          <Button variant="light" style={{ marginRight: 10 }} onClick={e => { if (position > 0) setPosition(position - 1) }} >
+            <BsCaretLeft/>
           </Button>
           <div style={{ border: '1px solid black', padding: 10 }}>
             <GuitarNeck
@@ -86,11 +85,11 @@ function App() {
                   ))}
                 </Form.Select>
               </label>
-              {selectedNotes.scalename && (<h6 style={{marginBottom: '6px !important'}}>{getSimpleNoteName(scaleRoot, forceFlat)} {selectedNotes.scalename}</h6>)}
+              {/* {selectedNotes.scalename && (<h6 style={{marginBottom: '6px !important'}}>{getSimpleNoteName(scaleRoot, forceFlat)} {selectedNotes.scalename}</h6>)} */}
             </div>
           </div>
-          <Button variant="light" style={{ marginRight: 10 }}>
-            <BsCaretRight onClick={e => setPosition(position + 1)} />
+          <Button variant="light" style={{ marginRight: 10 }} onClick={e => setPosition(position + 1)} >
+            <BsCaretRight/>
           </Button>
         </div>
         <div style={{ display: 'inline-flex', alignItems: 'left', width: '100%' }}>

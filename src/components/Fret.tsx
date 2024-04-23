@@ -16,7 +16,7 @@ const Fret: React.FC<FretProps> = ({ note, noteName, octave, active, displaySett
     const [isClicked, setIsClicked] = useState(false);
     const [isOver, setIsOver] = useState(false);
 
-    const enableSound = true;
+    const enableSound = false;
 
     const playGuitarNote = (note: NoteNames, octave: number) => {
         setIsClicked(true);
@@ -65,6 +65,7 @@ const Fret: React.FC<FretProps> = ({ note, noteName, octave, active, displaySett
     }
 
     const getRomanDisplaySize = (roman: string) => {
+        // if the roman number becomes too large (eg XXVIII) the font size should come down
         const len = roman.length;
         if (len === 0) 
             return 0;

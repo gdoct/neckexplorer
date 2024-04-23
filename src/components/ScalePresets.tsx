@@ -1,63 +1,75 @@
 import React, { useState } from "react";
-import { ScaleType,  Scale} from '../lib/musictypes'
+import { Scale } from '../lib/musictypes'
 import { presetScales } from '../lib/presets'
-import Form from 'react-bootstrap/Form';
+import ListGroup from 'react-bootstrap/ListGroup';
+import { act } from "react-dom/test-utils";
 
 interface ScalePresetsProps {
     onChange?: (scale: Scale) => void;
 }
 
-type Dictionary<Key extends keyof any, Value> = {
-    [key in Key]: Value;
-};
+interface ScaleData {
+    enabled: boolean,
+    name: string,
+    type: string,
+    scale: Scale | undefined
+}
+
+const ListItemStyle = {
+    backgroundColor: 'blue',
+    color: 'white'
+}
+
 
 const ScalePresets: React.FC<ScalePresetsProps> = ({ onChange }) => {
-
-    const presets: ScaleType[] = presetScales.map(s => s);
-    const scaleTypes = presets.map(s => s.type);
-
-    const [activePresets] = useState<Dictionary<string, string>>( {} );
-
-    const handleMultiPresetChange = (groupname: string, target: any) => {
-        let group = presets.find(p => p.type === groupname);
-        if (!group) return;
-        const newPresetIndex = Number(target.value);
-        const selectedPreset = group.scales[newPresetIndex];
-        onChange && onChange(selectedPreset);
-        // setActivePresetGroup(groupname);
-        for (const key in activePresets) {
-            activePresets[key] = (groupname === key) ? groupname + '_' + newPresetIndex : "";
-        }
-    }
-
-    const getActivePresetForGroup = (groupname: string) => {
-        for (const key in activePresets) {
-            if (key === groupname) {
-                return activePresets[key];
+    const selectScale = function (event: any, scaledata: ScaleData) {
+        if (scaledata && scaledata.scale) {
+            setActiveScale(scaledata);
+            let actualscale: Scale = scaledata.scale;
+            if (onChange && actualscale) {
+                onChange(actualscale);
             }
         }
-        return "";
+    };
+
+    const [activeScale, setActiveScale] = useState<ScaleData | undefined>(undefined);
+
+    const getItemStyle = (item: ScaleData) => { 
+        if (!item.enabled) return { 
+            backgroundColor: 'darkslategray',
+            color: 'antiquewhite'
+        }
+        if (activeScale && item.name === activeScale.name && item.type === activeScale.type) {
+            return { 
+                backgroundColor: 'lightyellow'
+            }
+        }
+        return {};
+    };
+
+    let allScales: ScaleData[] = [];
+    for (const presetgroup of presetScales) {
+        allScales.push({ enabled: false, name: presetgroup.type, type: presetgroup.type, scale: undefined });
+        for (const scale of presetgroup.scales) {
+            allScales.push({ enabled: true, name: scale.scalename, type: presetgroup.type, scale: scale });
+        }
     }
-   
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', width: '200px' }}>
-            {scaleTypes.map((groupname: string, index) => {
-                let scales = presets.find(s => s.type === groupname)?.scales || [];
-                return (
-                    <Form.Select
-                        key={index}
-                        value={getActivePresetForGroup(groupname)}
-                        onChange={e => handleMultiPresetChange(groupname, e.target)}
-                    >
-                        <option value="" style={{ fontStyle: 'italic', color: 'red' }} >&#x28;{groupname}&#x29;</option>
-                        {scales.map((scale, scaleIndex) => (
-                            <option key={groupname + '_' + scaleIndex} value={scaleIndex}>
-                                {scale.scalename}
-                            </option>
-                        ))}
-                    </Form.Select>
-                );
-            })}
+        <div style={{ height: "200px", overflowY: "scroll", 'margin': '5px' }}>
+                <ListGroup>
+                    {allScales.map((scale, index) => (
+                        <ListGroup.Item
+                            key={index}
+                            action
+                            disabled={!scale.enabled}
+                            onClick={e => selectScale(e.target, scale)}
+                            style={getItemStyle(scale)}
+                        >
+                            {scale.name}
+
+                        </ListGroup.Item>
+                    ))}
+                </ListGroup>
         </div>
     );
 };
