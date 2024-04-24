@@ -104,12 +104,10 @@ const Fret: React.FC<FretProps> = ({ note, noteName, octave, active, displaySett
                     fill="grey">{displaySettings.romanNumeral}</text>
                 </svg> )}
             <div className="line"/> 
-            {displaySettings.isNeck && 
-                <div style={{ marginTop:-14 }}>
-                    {noteName}
-                </div>
+            {displaySettings.isNeck && ! active &&
+                <div>{ noteName}</div>
             }
-            {active && !displaySettings.isNeck &&
+            {active && 
                 <div style={innerFretstyle} title={noteName}>
                     <span style={notestyle} >
                     {noteName}

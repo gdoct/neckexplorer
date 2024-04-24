@@ -61,7 +61,7 @@ const Snare: React.FC<SnareProps & { className?: string }> = ({
                     const isRootOfNeck = position === 0 && i === 0;
                     let notecolor: string = "";
                     let isactive: boolean = true;
-                    if (displaySettings.colorizeNotes === true && scaleRoot !== undefined && !isRootOfNeck) {
+                    if (displaySettings.colorizeNotes === true && scaleRoot !== undefined ) {
                         notecolor = getNoteColor(currentnote, scaleRoot, displaySettings.scaleToColorize?.notes);
                         isactive = notecolor !== "";
                     } else if (!displaySettings.showChromaticNotes) {

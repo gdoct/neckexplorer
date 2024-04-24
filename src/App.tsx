@@ -5,7 +5,7 @@ import GuitarNeck from './components/GuitarNeck'
 import ArpeggioPlayer from './components/ArpeggioPlayer'
 import { GuitarTuning, NoteNames, Scale, noteNamesArray, noteNamesArraySharp } from './lib/musictypes';
 import ScalePresets from './components/ScalePresets';
-import { ToggleButton } from "react-bootstrap";
+import { ButtonGroup } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
 import { BsCaretLeft, BsCaretRight, BsPlus, BsDash } from 'react-icons/bs';
@@ -53,7 +53,7 @@ function App() {
       <div style={{ display: 'block', alignItems: 'left' }}>
         <div style={{ display: 'flex', alignItems: 'left' }}>
           <Button title='navigate to the left' variant="light" style={{ marginRight: 10 }} onClick={e => { if (position > 0) setPosition(position - 1) }} >
-            <BsCaretLeft/>
+            <BsCaretLeft />
           </Button>
           <div style={{ border: '1px solid black', padding: 10 }}>
             <GuitarNeck
@@ -68,24 +68,25 @@ function App() {
             />
             <div style={{ display: 'flex', alignItems: 'left' }}>
               <div style={{ alignItems: 'left', alignContent: 'left', textAlign: 'left' }}>
-              <span title='decrease visible fret count'>
-                <Button variant="light" size="sm" style={{ marginLeft: 10 }} onClick={e => { if (fretCount > 3) setFretCount(fretCount - 1) }}>
-                  <BsDash />
-                </Button></span>
+                <span title='decrease visible fret count'>
+                  <Button variant="light" size="sm" style={{ marginLeft: 10 }} onClick={e => { if (fretCount > 3) setFretCount(fretCount - 1) }}>
+                    <BsDash />
+                  </Button></span>
                 <span title='increase visible fret count'>
-                <Button variant="light" size="sm" style={{ marginLeft: 10 }} onClick={e => { setFretCount(fretCount + 1) }}>
-                  <BsPlus />
-                </Button>
+                  <Button variant="light" size="sm" style={{ marginLeft: 10 }} onClick={e => { setFretCount(fretCount + 1) }}>
+                    <BsPlus />
+                  </Button>
                 </span>
               </div>
               <span title='select guitar tuning'>
-              <TuningPresets onChange={setTuning} />
+                <TuningPresets onChange={setTuning} />
               </span>
-              <Button
-                size='sm'
-                variant="outline-secondary"
-                onClick={(e) => handleToggleFlat()}
-              ><span title='toggle flat/sharp' className='musicText' >{forceFlat ? "b" : "#"}</span></Button>
+              <ButtonGroup className="me-2" aria-label="First group">
+                <Button
+                  size='sm'
+                  variant="outline-secondary"
+                  onClick={(e) => handleToggleFlat()}
+                ><span title='toggle flat/sharp' className='musicText' >{forceFlat ? "b" : "#"}</span></Button>
                 <Button
                   size='sm'
                   className="sm"
@@ -94,6 +95,7 @@ function App() {
                 >
                   <span title='toggle note names / numbers' className='musictext'>{forceNumeric ? "1" : "A"}</span>
                 </Button>
+              </ButtonGroup>
               <label title='select scale root'>
                 <Form.Select aria-label="Select root key" value={scaleRoot} onChange={handleScaleRootChange} size="sm" >
                   {Object.values(NoteNames).filter(value => typeof value === 'number').map((note, index) => (
@@ -103,8 +105,8 @@ function App() {
               </label>
             </div>
           </div>
-          <Button title='navigate to the right'  variant="light" style={{ marginRight: 10 }} onClick={e => setPosition(position + 1)} >
-            <BsCaretRight/>
+          <Button title='navigate to the right' variant="light" style={{ marginRight: 10 }} onClick={e => setPosition(position + 1)} >
+            <BsCaretRight />
           </Button>
         </div>
         <div style={{ display: 'inline-flex', alignItems: 'left', width: '100%' }}>
@@ -118,7 +120,7 @@ function App() {
             <ArpeggioPlayer rootnote={scaleRoot} scale={selectedNotes} />
           </div>}
 
-          {useTabPlayer &&
+        {useTabPlayer &&
           <div style={{ display: 'block', textAlign: 'center' }}>
             {/* <TabPlayer  /> */}
           </div>}
