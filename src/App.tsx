@@ -52,7 +52,7 @@ function App() {
     <div className="App">
       <div style={{ display: 'block', alignItems: 'left' }}>
         <div style={{ display: 'flex', alignItems: 'left' }}>
-          <Button variant="light" style={{ marginRight: 10 }} onClick={e => { if (position > 0) setPosition(position - 1) }} >
+          <Button title='navigate to the left' variant="light" style={{ marginRight: 10 }} onClick={e => { if (position > 0) setPosition(position - 1) }} >
             <BsCaretLeft/>
           </Button>
           <div style={{ border: '1px solid black', padding: 10 }}>
@@ -68,31 +68,33 @@ function App() {
             />
             <div style={{ display: 'flex', alignItems: 'left' }}>
               <div style={{ alignItems: 'left', alignContent: 'left', textAlign: 'left' }}>
+              <span title='decrease visible fret count'>
                 <Button variant="light" size="sm" style={{ marginLeft: 10 }} onClick={e => { if (fretCount > 3) setFretCount(fretCount - 1) }}>
                   <BsDash />
-                </Button>
+                </Button></span>
+                <span title='increase visible fret count'>
                 <Button variant="light" size="sm" style={{ marginLeft: 10 }} onClick={e => { setFretCount(fretCount + 1) }}>
                   <BsPlus />
                 </Button>
+                </span>
               </div>
+              <span title='select guitar tuning'>
               <TuningPresets onChange={setTuning} />
-              <span><Button
+              </span>
+              <Button
                 size='sm'
                 variant="outline-secondary"
                 onClick={(e) => handleToggleFlat()}
-              ><span className='musicText' >{forceFlat ? "b" : "#"}</span></Button>
-              </span>
-              <span>
+              ><span title='toggle flat/sharp' className='musicText' >{forceFlat ? "b" : "#"}</span></Button>
                 <Button
                   size='sm'
                   className="sm"
                   variant="outline-secondary"
                   onClick={(e) => handleToggleNumeric()}
                 >
-                  <span className='musictext'>{forceNumeric ? "1" : "A"}</span>
+                  <span title='toggle note names / numbers' className='musictext'>{forceNumeric ? "1" : "A"}</span>
                 </Button>
-              </span>
-              <label>
+              <label title='select scale root'>
                 <Form.Select aria-label="Select root key" value={scaleRoot} onChange={handleScaleRootChange} size="sm" >
                   {Object.values(NoteNames).filter(value => typeof value === 'number').map((note, index) => (
                     <option key={index} value={note}>{forceFlat ? noteNamesArray[note as number] : noteNamesArraySharp[note as number]}</option>
@@ -101,7 +103,7 @@ function App() {
               </label>
             </div>
           </div>
-          <Button variant="light" style={{ marginRight: 10 }} onClick={e => setPosition(position + 1)} >
+          <Button title='navigate to the right'  variant="light" style={{ marginRight: 10 }} onClick={e => setPosition(position + 1)} >
             <BsCaretRight/>
           </Button>
         </div>

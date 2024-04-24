@@ -1,8 +1,49 @@
-const initialcolors = ['red', 'lightgreen', 'chocolate',
-    'papayawhip', 'tan', 'thistle', 'orange',
+const initialcolors = ['red', 'orange', 'yellow',
+    'lime', 'cyan', '#43C6DB', 'magenta',
     'olive', 'gold', 'linen'];
-
+// roygblv
 export const presetScales = [
+    {
+        type: "General",
+        scales: [
+            {
+            "scalename": "Major scale",
+                "notes": [
+                    { interval: 0, color: initialcolors[0], name: "" },
+                    { interval: 2, color: initialcolors[1], name: "2" },
+                    { interval: 4, color: initialcolors[2], name: "3" },
+                    { interval: 5, color: initialcolors[3], name: "4" },
+                    { interval: 7, color: initialcolors[4], name: "5" },
+                    { interval: 9, color: initialcolors[5], name: "6" },
+                    { interval: 11, color: initialcolors[6], name: "7" }
+                ]
+            },
+            {
+                "scalename": "Minor scale",
+                "notes": [
+                    { interval: 0, color: initialcolors[0], name: "" },
+                    { interval: 2, color: initialcolors[1], name: "2" },
+                    { interval: 3, color: initialcolors[2], name: "b3" },
+                    { interval: 5, color: initialcolors[3], name: "4" },
+                    { interval: 7, color: initialcolors[4], name: "5" },
+                    { interval: 8, color: initialcolors[5], name: "b6" },
+                    { interval: 10, color: initialcolors[6], name: "b7" }
+                ]
+            },
+            {
+                "scalename": "Harmonic major scale",
+                "notes": [
+                    { interval: 0, color: initialcolors[0], name: "" },
+                    { interval: 2, color: initialcolors[1], name: "2" },
+                    { interval: 4, color: initialcolors[2], name: "3" },
+                    { interval: 5, color: initialcolors[3], name: "4" },
+                    { interval: 7, color: initialcolors[4], name: "5" },
+                    { interval: 8, color: initialcolors[5], name: "b6" },
+                    { interval: 11, color: initialcolors[6], name: "7" }
+                ]
+            }
+        ]
+    },
     {
         type: "Pentatonic",
         scales: [
@@ -28,12 +69,12 @@ export const presetScales = [
             {
                 scalename: "Blues scale (Minor)",
                 notes: [
-                    {interval: 0, color: initialcolors[0], name: ''},
-                    {interval: 3, color: initialcolors[1], name: 'b3'},
-                    {interval: 5, color: initialcolors[2], name: '4'},
-                    {interval: 6, color: initialcolors[3], name: 'b5'},
-                    {interval: 7, color: initialcolors[4], name: '5'},
-                    {interval: 10, color: initialcolors[5], name: 'b7'}
+                    { interval: 0, color: initialcolors[0], name: '' },
+                    { interval: 3, color: initialcolors[1], name: 'b3' },
+                    { interval: 5, color: initialcolors[2], name: '4' },
+                    { interval: 6, color: initialcolors[3], name: 'b5' },
+                    { interval: 7, color: initialcolors[4], name: '5' },
+                    { interval: 10, color: initialcolors[5], name: 'b7' }
                 ]
             }]
     },
@@ -41,7 +82,7 @@ export const presetScales = [
         "type": "Diatonic modes",
         "scales": [
             {
-                "scalename": "Major / Ionian scale",
+                "scalename": "Ionian scale",
                 "notes": [
                     { interval: 0, color: initialcolors[0], name: "" },
                     { interval: 2, color: initialcolors[1], name: "2" },
@@ -53,7 +94,7 @@ export const presetScales = [
                 ]
             },
             {
-                "scalename": "Minor / Dorian scale",
+                "scalename": "Dorian scale",
                 "notes": [
                     { interval: 0, color: initialcolors[0], name: "" },
                     { interval: 2, color: initialcolors[1], name: "2" },
@@ -161,18 +202,6 @@ export const presetScales = [
                     { interval: 5, color: initialcolors[3], name: "4" },
                     { interval: 7, color: initialcolors[4], name: "5" },
                     { interval: 9, color: initialcolors[5], name: "6" },
-                    { interval: 11, color: initialcolors[6], name: "7" }
-                ]
-            },
-            {
-                "scalename": "Harmonic major scale",
-                "notes": [
-                    { interval: 0, color: initialcolors[0], name: "" },
-                    { interval: 2, color: initialcolors[1], name: "2" },
-                    { interval: 4, color: initialcolors[2], name: "3" },
-                    { interval: 5, color: initialcolors[3], name: "4" },
-                    { interval: 7, color: initialcolors[4], name: "5" },
-                    { interval: 8, color: initialcolors[5], name: "b6" },
                     { interval: 11, color: initialcolors[6], name: "7" }
                 ]
             }

@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/neckexplorer/static/css/main.6c836674.css",
-    "main.js": "/neckexplorer/static/js/main.0f0f6a04.js",
+    "main.js": "/neckexplorer/static/js/main.a16913e6.js",
     "index.html": "/neckexplorer/index.html",
     "main.6c836674.css.map": "/neckexplorer/static/css/main.6c836674.css.map",
-    "main.0f0f6a04.js.map": "/neckexplorer/static/js/main.0f0f6a04.js.map"
+    "main.a16913e6.js.map": "/neckexplorer/static/js/main.a16913e6.js.map"
   },
   "entrypoints": [
     "static/css/main.6c836674.css",
-    "static/js/main.0f0f6a04.js"
+    "static/js/main.a16913e6.js"
   ]
 }
