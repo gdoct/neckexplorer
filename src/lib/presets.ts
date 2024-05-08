@@ -248,5 +248,59 @@ export const presetScales = [
                     { interval: 8, color: initialcolors[4], name: "#5" }]
             }
         ]
+    },
+
+    {
+        type: "Modal triads",
+        scales: [
+            {
+                scalename: '1 - Ionian triad', notes: [
+                    { interval: 0, color: initialcolors[0], name: "" },
+                    { interval: 4, color: initialcolors[2], name: "3" },
+                    { interval: 7, color: initialcolors[4], name: "5" }]
+            },
+            {
+                scalename: '2 - Dorian triad', notes: [
+                    { interval: 2, color: initialcolors[0], name: "2" },
+                    { interval: 6, color: initialcolors[2], name: "4" },
+                    { interval: 9, color: initialcolors[4], name: "6" }]
+            },
+
+            {
+                scalename: '3 - Phrygian triad', notes: [
+                    { interval: 4, color: initialcolors[0], name: "3" },
+                    { interval: 8, color: initialcolors[2], name: "5" },
+                    { interval: 11, color: initialcolors[4], name: "7" }]
+            },
+
+            {
+                scalename: '4 - Lydian triad', notes: [
+                    { interval: 5, color: initialcolors[0], name: "4" },
+                    { interval: 9, color: initialcolors[2], name: "6" },
+                    { interval: 11, color: initialcolors[4], name: "1" }]
+            },
+
+            {
+                scalename: '5 - Myxolydian triad', notes: [
+                    { interval: 7, color: initialcolors[0], name: "5" },
+                    { interval: 11, color: initialcolors[2], name: "7" },
+                    { interval: 2, color: initialcolors[4], name: "2" }]
+            },
+
+            {
+                scalename: '6 - Aeolian triad', notes: [
+                    { interval: 9, color: initialcolors[0], name: "6" },
+                    { interval: 1, color: initialcolors[2], name: "1" },
+                    { interval: 4, color: initialcolors[4], name: "3" }]
+            },
+
+            {
+                scalename: '7 - Locrian triad', notes: [
+                    { interval: 11, color: initialcolors[0], name: "7" },
+                    { interval: 3, color: initialcolors[2], name: "2" },
+                    { interval: 6, color: initialcolors[4], name: "4" }]
+            },
+
+        ]
     }
 ];
