@@ -281,7 +281,7 @@ export const presetScales = [
             },
 
             {
-                scalename: '5 - Myxolydian triad', notes: [
+                scalename: '5 - Mixolydian triad', notes: [
                     { interval: 7, color: initialcolors[0], name: "5" },
                     { interval: 11, color: initialcolors[2], name: "7" },
                     { interval: 2, color: initialcolors[4], name: "2" }]
